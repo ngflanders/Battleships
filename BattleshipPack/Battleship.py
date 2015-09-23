@@ -4,26 +4,40 @@ Created on Sep 21, 2015
 @author: Nick Flanders, Nicole Gerber
 '''
 
+#import libraries
 import os
 import time
 import random
 
+#create opponent's (computer's) board by making an array and adding a "c" to the top
+#for identification
 opBoard = [['0' for x in range(10)] for y in range(10)]
 opBoard.insert(0, "c")
+
+#create user's board in the same fashion
 myBoard = [['0' for x in range(10)] for y in range(10)]
 myBoard.insert(0, "u")
 
+#variables for each ship with how many lives they have
 bship = 4
 destroyer = 4
 sub = 3
 patrol = 2
 carrier = 5
 
+#lists and dictionaries for the ships, lives, board positions, and orientations
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 orientations = ['n', 's', 'e', 'w']
 letterspos = {'a': 0, 'b': 1, 'c':2, 'd':3, 'e':4,'f':5,'g':6,'h':7, 'i': 8, 'j': 9}
 ships_dict = {'b':4, 'd': 4, 's': 3, 'p': 2,'c':5}
 ships_list = ['Battleship', "Destroyer", "Submarine", "Patrol Boat", "Carrier"]
+
+#********************************************************************************
+#printMenu() - prints out the name of the game
+#
+#pre - none
+#post - menu has been printed
+#********************************************************************************
 
 def printMenu():
     print "    ____            __  __          __                        "
@@ -34,6 +48,12 @@ def printMenu():
     print "                                               /_/            "
     print
 
+#********************************************************************************
+#printBoard() - prints out the inputted board
+#
+#pre - an array with an identification letter is passed into the function
+#post - the board has been printed with identification, dividers, and coordinates
+#********************************************************************************
 
 def printBoard(board):
     if board[0] == 'u':
@@ -56,6 +76,12 @@ def printBoard(board):
                     print "|  " + board[y][x] + " ",
             print
 
+#********************************************************************************
+#get_user_input_loc() - prompts the user for a location in coordinates
+#
+#pre - none
+#post - valid coordinate points have been parsed and returned
+#********************************************************************************
 
 def get_user_input_loc():
     inp = str(raw_input("Enter letter and number: "))
