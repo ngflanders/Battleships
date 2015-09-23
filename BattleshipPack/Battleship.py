@@ -26,6 +26,11 @@ ships_dict = {'b':4, 'd': 4, 's': 3, 'p': 2,'c':5}
 ships_list = ['Battleship', "Destroyer", "Submarine", "Patrol Boat", "Carrier"]
 
 def printBoard(board):
+    if board[0][0] == 'u':
+        print "User's board:\n"
+    else:
+        print "Computer's board:\n"
+
     print " ",
     for letter in alphabet:
         print "   " + str(letterspos[letter]+1) + " ",
@@ -47,7 +52,7 @@ def get_user_input_loc():
     while inp[0].lower() not in letterspos or int(inp[2:len(inp)]) > 10:
         print "Please choose a letter and number from the board"
         inp = str(raw_input("Enter letter and number: "))
-    
+
     row = letterspos[inp[0].lower()]
     col = int(inp[2:len(inp)])
 
@@ -99,7 +104,7 @@ def place_ship(board, ship, row, col, orient):
             board[row + 1][col + x] = ship.upper()
         elif orient == 'n':
             board[row - x + 1][col] = ship.upper()
-        else: 
+        else:
             board[row + 1][col - x] = ship.upper()
 
 def checkForShip(board, ship, row, col, orient):
@@ -115,7 +120,7 @@ def checkForShip(board, ship, row, col, orient):
         for x in range(ships_dict[ship]):
             if board[row - x + 1][col] != '0':
                 return False
-    else: 
+    else:
         for x in range(ships_dict[ship]):
             if board[row +1][col - x] != '0':
                 return False
@@ -138,20 +143,27 @@ def checkBoundaries(ship, row, col, orient):
             if (col - x) < 0:
                 return False
 
+# def fire(board, row, col):
+#     BOOM BOOM
+
+
+def main():
+    inpoo = raw_input("Would you like to deploy your own ships or have them auto deployed? T for auto, F for manual: ")
+    if inpoo == 'T':
+        autoornah = True
+    else:
+        autoornah = False
+
+    deployShips(myBoard, autoornah)
+
+    print "All ships deployed"
+    print "Computer deploying ships..."
+
+    deployShips(opBoard, True)
+
+    print "Computer ships deployed"
 
 
 
-#hey
-#bertlesherps
-
-
-#print get_user_input_loc()
-#place_ship(myBoard, 'b', 2, 6, 'e')
-#printBoard(myBoard)
-deployShips(myBoard, True)
-
-
-
-
-
+main()
 
