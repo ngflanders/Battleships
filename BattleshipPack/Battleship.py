@@ -25,6 +25,13 @@ letterspos = {'a': 0, 'b': 1, 'c':2, 'd':3, 'e':4,'f':5,'g':6,'h':7, 'i': 8, 'j'
 ships_dict = {'b':4, 'd': 4, 's': 3, 'p': 2,'c':5}
 ships_list = ['Battleship', "Destroyer", "Submarine", "Patrol Boat", "Carrier"]
 
+def printMenu():
+    print " ______     ______     ______   ______   __         ______     ______     __  __     __     ______   ______    "
+    print "/\  == \   /\  __ \   /\__  _\ /\__  _\ /\ \       /\  ___\   /\  ___\   /\ \_\ \   /\ \   /\  == \ /\  ___\   "
+    print "\ \  __<   \ \  __ \  \/_/\ \/ \/_/\ \/ \ \ \____  \ \  __\   \ \___  \  \ \  __ \  \ \ \  \ \  _-/ \ \___  \  "
+    print " \ \_____\  \ \_\ \_\    \ \_\    \ \_\  \ \_____\  \ \_____\  \/\_____\  \ \_\ \_\  \ \_\  \ \_\    \/\_____\ "
+    print "  \/_____/   \/_/\/_/     \/_/     \/_/   \/_____/   \/_____/   \/_____/   \/_/\/_/   \/_/   \/_/     \/_____/ "
+
 def printBoard(board):
     if board[0][0] == 'u':
         print "User's board:\n"
@@ -153,6 +160,7 @@ def fire(board, row, col):
 
 
 def main():
+    printMenu()
     inpoo = raw_input("Would you like to deploy your own ships or have them auto deployed? T for auto, F for manual: ")
     if inpoo == 'T':
         autoornah = True
