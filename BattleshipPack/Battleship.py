@@ -124,7 +124,7 @@ def place_ship(board, ship, row, col, orient):
 def checkForShip(board, ship, row, col, orient):
     if orient == 's':
         for x in range(ships_dict[ship]):
-            if board[row + x + 1][col] != '0':
+            if check_position(board, row + x +1, col) == False:
                 return False
     elif orient == 'e':
         for x in range(ships_dict[ship]):
@@ -139,6 +139,10 @@ def checkForShip(board, ship, row, col, orient):
             if board[row +1][col - x] != '0':
                 return False
 
+
+def check_position(board, row, col):
+    if board[row][col] != '0':
+        return False
 
 def checkBoundaries(ship, row, col, orient):
     if orient == 's':
@@ -159,7 +163,7 @@ def checkBoundaries(ship, row, col, orient):
                 return False
     
 
-def fire(board, row, col):
+def check_fired(board, row, col):
     if board[col][row] == '*' or board[col][row] == 'M':
         return False
     else:
@@ -182,6 +186,19 @@ def main():
     deployShips(opBoard, True)
 
     print "Computer ships deployed"
+
+    myShipsLeft = 5
+    opShipsLeft = 5
+
+    while (myShipsLeft > 0 and opShipsLeft > 0):
+        print "Fire at your opponent! ",
+        locx, locy = get_user_input_loc()
+        while check_fired(opBoard, locx, locy) == False:
+            locx, locy = get_user_input_loc()
+
+
+
+
 
 
 
