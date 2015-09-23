@@ -153,9 +153,12 @@ def checkBoundaries(ship, row, col, orient):
             if (col - x) < 0:
                 return False
     
-# def fire(board, row, col):
-#     BOOM BOOM
 
+def fire(board, row, col):
+    if board[col][row] == '*' or board[col][row] == 'M':
+        return False
+    else:
+        return True
 
 
 def main():
