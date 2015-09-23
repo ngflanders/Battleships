@@ -159,6 +159,7 @@ def fire(board, row, col):
 
 
 
+
 def main():
     printMenu()
     inpoo = raw_input("Would you like to deploy your own ships or have them auto deployed? T for auto, F for manual: ")
