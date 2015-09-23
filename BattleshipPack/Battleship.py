@@ -20,40 +20,38 @@ patrol = 2
 carrier = 5
 
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-letterspos = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4,'f': 5, 'g':6 ,'h': 7, 'i': 8, 'j': 9}
-ships_dict = {'b': 4, 'd': 4, 's': 3, 'p': 2, 'c': 5}
+orientations = ['n', 's', 'e', 'w']
+letterspos = {'a': 0, 'b': 1, 'c':2, 'd':3, 'e':4,'f':5,'g':6,'h':7, 'i': 8, 'j': 9}
+ships_dict = {'b':4, 'd': 4, 's': 3, 'p': 2,'c':5}
 ships_list = ['Battleship', "Destroyer", "Submarine", "Patrol Boat", "Carrier"]
 
-
-def print_board(board):
+def printBoard(board):
     print " ",
     for letter in alphabet:
         print "   " + str(letterspos[letter]+1) + " ",
     print
-    if board[0] == "u":
+    if (board[0] == "u"):
         for y in range(1, 11):
             print "   -----------------------------------------------------------"
             print alphabet[y-1].upper(),
             for x in range(len(board[y])):
-                print "|  " + board[y][x] + " ",
+                if board[y][x] == '0':
+                    print "|    ",
+                else:
+                    print "|  " + board[y][x] + " ",
             print
-
 
 def get_user_input_loc():
     inp = str(raw_input("Enter letter and number: "))
 
-    while inp[0].lower() not in letterspos:
-        print "Invalid letter. Try again."
+    while inp[0].lower() not in letterspos or int(inp[2:len(inp)]) > 10:
+        print "Please choose a letter and number from the board"
         inp = str(raw_input("Enter letter and number: "))
+    
     row = letterspos[inp[0].lower()]
-
     col = int(inp[2:len(inp)])
-    while col > 10:
-        print "Invalid number must be less than or equal to 10."
-        col = int(raw_input("Enter a column number: "))
 
     return row, col-1
-
 
 def get_user_input_orient():
     inp = raw_input("Enter a direction (N, S, E, or W): ")
@@ -62,26 +60,35 @@ def get_user_input_orient():
     return inp
 
 
-def deploy_ships(board, autoornah):
+def deployShips(board, autoornah):
     if autoornah:
-        pass
+        for x in ships_list:
+            row, col = random.randint(0,9), random.randint(0,9)
+            orient = random.choice(orientations)
+
+            while checkBoundaries(x[0].lower(), row, col, orient) == False or checkForShip(board, x[0].lower(), row, col, orient) == False:
+                row, col = random.randint(0,9), random.randint(0,9)
+                orient = random.choice(orientations)
+
+
+            place_ship(board, x[0].lower(), row, col, orient)
+        printBoard(board)
     else:
         for x in ships_list:
             os.system('cls' if os.name == 'nt' else 'clear')
-            print_board(board)
-            print "Place your " + x
+            printBoard(board)
+
+            print "Place your " + x + "(" + str(ships_dict[x[0].lower()]) + "):"
             row, col = get_user_input_loc()
             orient = get_user_input_orient()
-            while not check_boundaries(x[0].lower(), row, col, orient):
-                print "Out of bounds, brother..."
+
+            while checkBoundaries(x[0].lower(), row, col, orient) == False or checkForShip(board, x[0].lower(), row, col, orient) == False:
+                print "Please place your ship within the board where it does not overlap another ship"
                 row, col = get_user_input_loc()
                 orient = get_user_input_orient()
-            while not check_for_ship(board, x[0].lower(), row, col, orient):
-                print "Something's there, brother..."
-                row, col = get_user_input_loc()
-                orient = get_user_input_orient()
+
             place_ship(board, x[0].lower(), row, col, orient)
-        print_board(board)
+        printBoard(board)
 
 
 def place_ship(board, ship, row, col, orient):
@@ -91,12 +98,11 @@ def place_ship(board, ship, row, col, orient):
         elif orient == 'e':
             board[row + 1][col + x] = ship.upper()
         elif orient == 'n':
-            board[row -x + 1][col] = ship.upper()
+            board[row - x + 1][col] = ship.upper()
         else: 
             board[row + 1][col - x] = ship.upper()
 
-
-def check_for_ship(board, ship, row, col, orient):
+def checkForShip(board, ship, row, col, orient):
     if orient == 's':
         for x in range(ships_dict[ship]):
             if board[row + x + 1][col] != '0':
@@ -114,11 +120,10 @@ def check_for_ship(board, ship, row, col, orient):
             if board[row +1][col - x] != '0':
                 return False
 
-
-def check_boundaries(ship, row, col, orient):
+def checkBoundaries(ship, row, col, orient):
     if orient == 's':
         for x in range(ships_dict[ship]):
-            if (row + x + 1) > 9:
+            if (row + x) > 9:
                 return False
     elif orient == 'e':
         for x in range(ships_dict[ship]):
@@ -126,7 +131,7 @@ def check_boundaries(ship, row, col, orient):
                 return False
     elif orient == 'n':
         for x in range(ships_dict[ship]):
-            if (row - x + 1) < 0:
+            if (row - x) < 0:
                 return False
     else:
         for x in range(ships_dict[ship]):
@@ -134,12 +139,18 @@ def check_boundaries(ship, row, col, orient):
                 return False
 
 
-#hey
+
 
 
 
 
 #print get_user_input_loc()
 #place_ship(myBoard, 'b', 2, 6, 'e')
-#print_board(myBoard)
-deploy_ships(myBoard, False)
+#printBoard(myBoard)
+deployShips(myBoard, True)
+
+
+
+
+
+
