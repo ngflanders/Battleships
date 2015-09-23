@@ -142,7 +142,6 @@ def checkBoundaries(ship, row, col, orient):
 
 
 #hey
-#bertlesherps
 
 
 #print get_user_input_loc()
