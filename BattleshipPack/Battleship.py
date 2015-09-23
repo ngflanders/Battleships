@@ -26,11 +26,14 @@ ships_dict = {'b':4, 'd': 4, 's': 3, 'p': 2,'c':5}
 ships_list = ['Battleship', "Destroyer", "Submarine", "Patrol Boat", "Carrier"]
 
 def printMenu():
-    print " ______     ______     ______   ______   __         ______     ______     __  __     __     ______   ______    "
-    print "/\  == \   /\  __ \   /\__  _\ /\__  _\ /\ \       /\  ___\   /\  ___\   /\ \_\ \   /\ \   /\  == \ /\  ___\   "
-    print "\ \  __<   \ \  __ \  \/_/\ \/ \/_/\ \/ \ \ \____  \ \  __\   \ \___  \  \ \  __ \  \ \ \  \ \  _-/ \ \___  \  "
-    print " \ \_____\  \ \_\ \_\    \ \_\    \ \_\  \ \_____\  \ \_____\  \/\_____\  \ \_\ \_\  \ \_\  \ \_\    \/\_____\ "
-    print "  \/_____/   \/_/\/_/     \/_/     \/_/   \/_____/   \/_____/   \/_____/   \/_/\/_/   \/_/   \/_/     \/_____/ "
+    print "    ____            __  __          __                        "
+    print "   / __ )___  _____/ /_/ /__  _____/ /_  ___  _________  _____"
+    print "  / __  / _ \/ ___/ __/ / _ \/ ___/ __ \/ _ \/ ___/ __ \/ ___/"
+    print " / /_/ /  __/ /  / /_/ /  __(__  ) / / /  __/ /  / /_/ (__  ) "
+    print "/_____/\___/_/   \__/_/\___/____/_/ /_/\___/_/  / .___/____/  "
+    print "                                               /_/            "
+    print
+
 
 def printBoard(board):
     if board[0][0] == 'u':
@@ -59,7 +62,7 @@ def get_user_input_loc():
     while inp[0].lower() not in letterspos or int(inp[2:len(inp)]) > 10:
         print "Please choose a letter and number from the board"
         inp = str(raw_input("Enter letter and number: "))
-
+    
     row = letterspos[inp[0].lower()]
     col = int(inp[2:len(inp)])
 
@@ -111,9 +114,8 @@ def place_ship(board, ship, row, col, orient):
             board[row + 1][col + x] = ship.upper()
         elif orient == 'n':
             board[row - x + 1][col] = ship.upper()
-        else:
+        else: 
             board[row + 1][col - x] = ship.upper()
-
 
 def checkForShip(board, ship, row, col, orient):
     if orient == 's':
@@ -128,11 +130,10 @@ def checkForShip(board, ship, row, col, orient):
         for x in range(ships_dict[ship]):
             if board[row - x + 1][col] != '0':
                 return False
-    else:
+    else: 
         for x in range(ships_dict[ship]):
             if board[row +1][col - x] != '0':
                 return False
-
 
 def checkBoundaries(ship, row, col, orient):
     if orient == 's':
@@ -151,12 +152,9 @@ def checkBoundaries(ship, row, col, orient):
         for x in range(ships_dict[ship]):
             if (col - x) < 0:
                 return False
-
-
-def fire(board, row, col):
-    if board[col][row] == '*' or board[col][row] == 'M':
-        return False
-
+    
+# def fire(board, row, col):
+#     BOOM BOOM
 
 
 
