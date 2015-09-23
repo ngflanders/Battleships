@@ -56,6 +56,7 @@ def printBoard(board):
                     print "|  " + board[y][x] + " ",
             print
 
+
 def get_user_input_loc():
     inp = str(raw_input("Enter letter and number: "))
 
@@ -67,6 +68,7 @@ def get_user_input_loc():
     col = int(inp[2:len(inp)])
 
     return row, col-1
+
 
 def get_user_input_orient():
     inp = raw_input("Enter a direction (N, S, E, or W): ")
@@ -118,6 +120,7 @@ def place_ship(board, ship, row, col, orient):
         else: 
             board[row + 1][col - x] = ship.upper()
 
+
 def checkForShip(board, ship, row, col, orient):
     if orient == 's':
         for x in range(ships_dict[ship]):
@@ -135,6 +138,7 @@ def checkForShip(board, ship, row, col, orient):
         for x in range(ships_dict[ship]):
             if board[row +1][col - x] != '0':
                 return False
+
 
 def checkBoundaries(ship, row, col, orient):
     if orient == 's':
