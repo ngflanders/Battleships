@@ -107,6 +107,7 @@ def place_ship(board, ship, row, col, orient):
         else:
             board[row + 1][col - x] = ship.upper()
 
+
 def checkForShip(board, ship, row, col, orient):
     if orient == 's':
         for x in range(ships_dict[ship]):
@@ -124,6 +125,7 @@ def checkForShip(board, ship, row, col, orient):
         for x in range(ships_dict[ship]):
             if board[row +1][col - x] != '0':
                 return False
+
 
 def checkBoundaries(ship, row, col, orient):
     if orient == 's':
@@ -143,8 +145,11 @@ def checkBoundaries(ship, row, col, orient):
             if (col - x) < 0:
                 return False
 
-# def fire(board, row, col):
-#     BOOM BOOM
+
+def fire(board, row, col):
+    if board[col][row] == '*' or board[col][row] == 'M':
+        return False
+
 
 
 def main():
