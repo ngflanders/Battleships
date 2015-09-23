@@ -36,7 +36,7 @@ def printMenu():
 
 
 def printBoard(board):
-    if board[0][0] == 'u':
+    if board[0] == 'u':
         print "User's board:\n"
     else:
         print "Computer's board:\n"
@@ -45,7 +45,7 @@ def printBoard(board):
     for letter in alphabet:
         print "   " + str(letterspos[letter]+1) + " ",
     print
-    if (board[0] == "u"):
+    if board[0] == "u":
         for y in range(1, 11):
             print "   -----------------------------------------------------------"
             print alphabet[y-1].upper(),
@@ -87,7 +87,8 @@ def deployShips(board, autoornah):
 
 
             place_ship(board, x[0].lower(), row, col, orient)
-        printBoard(board)
+        if board[0] == "u":
+            printBoard(board)
     else:
         for x in ships_list:
             os.system('cls' if os.name == 'nt' else 'clear')
