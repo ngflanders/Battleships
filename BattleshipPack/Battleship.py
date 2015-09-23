@@ -20,22 +20,24 @@ patrol = 2
 carrier = 5
 
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-letterspos = {'a': 0, 'b': 1, 'c':2, 'd':3, 'e':4,'f':5,'g':6,'h':7, 'i': 8, 'j': 9}
-ships_dict = {'b':4, 'd': 4, 's': 3, 'p': 2,'c':5}
+letterspos = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4,'f': 5, 'g':6 ,'h': 7, 'i': 8, 'j': 9}
+ships_dict = {'b': 4, 'd': 4, 's': 3, 'p': 2, 'c': 5}
 ships_list = ['Battleship', "Destroyer", "Submarine", "Patrol Boat", "Carrier"]
 
-def printBoard(board):
+
+def print_board(board):
     print " ",
     for letter in alphabet:
         print "   " + str(letterspos[letter]+1) + " ",
     print
-    if (board[0] == "u"):
+    if board[0] == "u":
         for y in range(1, 11):
             print "   -----------------------------------------------------------"
             print alphabet[y-1].upper(),
             for x in range(len(board[y])):
                 print "|  " + board[y][x] + " ",
             print
+
 
 def get_user_input_loc():
     inp = str(raw_input("Enter letter and number: "))
@@ -60,26 +62,26 @@ def get_user_input_orient():
     return inp
 
 
-def deployShips(board, autoornah):
+def deploy_ships(board, autoornah):
     if autoornah:
         pass
     else:
         for x in ships_list:
             os.system('cls' if os.name == 'nt' else 'clear')
-            printBoard(board)
+            print_board(board)
             print "Place your " + x
             row, col = get_user_input_loc()
             orient = get_user_input_orient()
-            while checkBoundaries(x[0].lower(), row, col, orient) == False:
+            while not check_boundaries(x[0].lower(), row, col, orient):
                 print "Out of bounds, brother..."
                 row, col = get_user_input_loc()
                 orient = get_user_input_orient()
-            while checkForShip(board, x[0].lower(), row, col, orient) == False:
+            while not check_for_ship(board, x[0].lower(), row, col, orient):
                 print "Something's there, brother..."
                 row, col = get_user_input_loc()
                 orient = get_user_input_orient()
             place_ship(board, x[0].lower(), row, col, orient)
-        printBoard(board)
+        print_board(board)
 
 
 def place_ship(board, ship, row, col, orient):
@@ -93,7 +95,8 @@ def place_ship(board, ship, row, col, orient):
         else: 
             board[row + 1][col - x] = ship.upper()
 
-def checkForShip(board, ship, row, col, orient):
+
+def check_for_ship(board, ship, row, col, orient):
     if orient == 's':
         for x in range(ships_dict[ship]):
             if board[row + x + 1][col] != '0':
@@ -111,7 +114,8 @@ def checkForShip(board, ship, row, col, orient):
             if board[row +1][col - x] != '0':
                 return False
 
-def checkBoundaries(ship, row, col, orient):
+
+def check_boundaries(ship, row, col, orient):
     if orient == 's':
         for x in range(ships_dict[ship]):
             if (row + x + 1) > 9:
@@ -137,5 +141,5 @@ def checkBoundaries(ship, row, col, orient):
 
 #print get_user_input_loc()
 #place_ship(myBoard, 'b', 2, 6, 'e')
-#printBoard(myBoard)
-deployShips(myBoard, False)
+#print_board(myBoard)
+deploy_ships(myBoard, False)
