@@ -137,7 +137,7 @@ def get_user_input_loc():
     row = letterspos[inp[0].lower()]
     col = int(inp[2:len(inp)])
 
-    return row-1, col-1
+    return row, col-1
 
 
 def get_user_input_orient():
@@ -275,11 +275,16 @@ def checkBoundaries(ship, row, col, orient):
 def check_hit(board, row, col):
     for x in ships_list:
         if board[row][col] == x[0]:
+            #board[row][col] = "*"
             if board[len(board)-1] == 'u':
                 my_ships_dict[x[0].lower()] -= 1
             else:
                 op_ships_dict[x[0].lower()] -= 1
             return True
+   # temp = list(board[row][col])
+    #temp = "M"
+    #str(temp)
+    #board[row][col] = "M"
     return False
 
 def check_fired(board, row, col):
