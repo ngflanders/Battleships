@@ -12,11 +12,11 @@ import random
 #create opponent's (computer's) board by making an array and adding a "c" to the top
 #for identification
 opBoard = [['0' for x in range(10)] for y in range(10)]
-opBoard.insert(0, "c")
+opBoard.append("c")
 
 #create user's board in the same fashion
 myBoard = [['0' for x in range(10)] for y in range(10)]
-myBoard.insert(0, "u")
+myBoard.append("u")
 
 #variables for each ship with how many lives they have
 bship = 4
@@ -70,7 +70,7 @@ def printMenu():
 def printBoard(board):
 
     #checks identification character to determine which name to print out
-    if board[0] == 'u':
+    if board[len(board)-1] == 'u':
         print "User's board:\n"
     else:
         print "Computer's board:\n"
@@ -78,17 +78,17 @@ def printBoard(board):
     #print out the top row of numbers using the letterspos dictionary
     print " ",
     for letter in alphabet:
-        print "   " + str(letterspos[letter]+1) + " ",
+        print "   " + str(letterspos[letter]) + " ",
     print
 
     #for the player's board...
-    if board[0] == "u" or board[0] == 'c':
+    if board[len(board)-1] == "u":
 
         #print the divising line and the letter coordinate for that line from the
         #alphabet dictionary for every row in the board, excluding the ID line
-        for y in range(1, 11):
+        for y in range(len(board)-1):
             print "   -----------------------------------------------------------"
-            print alphabet[y-1].upper(),
+            print alphabet[y].upper(),
 
             #for every location on the board, if it's empty, print a blank space
             #if not, print what is at that location
@@ -97,6 +97,21 @@ def printBoard(board):
                     print "|    ",
                 else:
                     print "|  " + board[y][x] + " ",
+            print
+
+    else:
+
+        for y in range(len(board)-1):
+            print "   -----------------------------------------------------------"
+            print alphabet[y].upper(),
+
+            for x in range(len(board[y])):
+                if board[y][x] == 'M':
+                    print "|  M ",
+                elif board[y][x] == '*':
+                    print "|  * ",
+                else:
+                    print "|    ",
             print
 
 #********************************************************************************
@@ -122,7 +137,7 @@ def get_user_input_loc():
     row = letterspos[inp[0].lower()]
     col = int(inp[2:len(inp)])
 
-    return row, col-1
+    return row-1, col-1
 
 
 def get_user_input_orient():
@@ -158,7 +173,7 @@ def deployShips(board, autoornah):
             place_ship(board, x[0].lower(), row, col, orient)
 
         #if it's the user's board, print the board
-        if board[0] == "u":
+        if board[len(board)-1] == "u":
             printBoard(board)
 
     #if deployment is manual...
@@ -200,16 +215,16 @@ def place_ship(board, ship, row, col, orient):
         #for each direction, place the letter of that ship in every
         #space along that direction with compensation for the ID row
         if orient == 's':
-            board[row + x + 1][col] = ship.upper()
+            board[row + x][col] = ship.upper()
 
         elif orient == 'e':
-            board[row + 1][col + x] = ship.upper()
+            board[row][col + x] = ship.upper()
 
         elif orient == 'n':
-            board[row - x + 1][col] = ship.upper()
+            board[row - x][col] = ship.upper()
 
         else: 
-            board[row + 1][col - x] = ship.upper()
+            board[row][col - x] = ship.upper()
 
 
 def checkForShip(board, ship, row, col, orient):
@@ -218,19 +233,19 @@ def checkForShip(board, ship, row, col, orient):
     #is currently occupied and return false if it is
     if orient == 's':
         for x in range(my_ships_dict[ship]):
-            if check_position(board, row + x +1, col) == False:
+            if check_position(board, row + x, col) == False:
                 return False
     elif orient == 'e':
         for x in range(my_ships_dict[ship]):
-            if check_position(board, row + 1, col + x) == False:
+            if check_position(board, row, col + x) == False:
                 return False
     elif orient == 'n':
         for x in range(my_ships_dict[ship]):
-            if check_position(board, row - x + 1, col) == False:
+            if check_position(board, row - x, col) == False:
                 return False
     else: 
         for x in range(my_ships_dict[ship]):
-            if check_position(board, row + 1, col - x) == False:
+            if check_position(board, row, col - x) == False:
                 return False
 
 
@@ -259,8 +274,8 @@ def checkBoundaries(ship, row, col, orient):
 
 def check_hit(board, row, col):
     for x in ships_list:
-        if board[row+1][col] == x[0]:
-            if board[0] == 'u':
+        if board[row][col] == x[0]:
+            if board[len(board)-1] == 'u':
                 my_ships_dict[x[0].lower()] -= 1
             else:
                 op_ships_dict[x[0].lower()] -= 1
@@ -268,7 +283,7 @@ def check_hit(board, row, col):
     return False
 
 def check_fired(board, row, col):
-    if board[row+1][col] == '*' or board[row+1][col] == 'M':
+    if board[row][col] == '*' or board[row][col] == 'M':
         return False
     else:
         return True
