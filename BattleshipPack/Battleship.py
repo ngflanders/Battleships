@@ -29,7 +29,8 @@ carrier = 5
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 orientations = ['n', 's', 'e', 'w']
 letterspos = {'a': 0, 'b': 1, 'c':2, 'd':3, 'e':4,'f':5,'g':6,'h':7, 'i': 8, 'j': 9}
-ships_dict = {'b':4, 'd': 4, 's': 3, 'p': 2,'c':5}
+my_ships_dict = {'b':4, 'd': 4, 's': 3, 'p': 2,'c':5}
+op_ships_dict = {'b':4, 'd': 4, 's': 3, 'p': 2,'c':5}
 ships_list = ['Battleship', "Destroyer", "Submarine", "Patrol Boat", "Carrier"]
 
 #********************************************************************************
@@ -160,7 +161,7 @@ def deployShips(board, autoornah):
             printBoard(board)
 
             #prompt to place each ship in the ship list with number of spaces allowed
-            print "Place your " + x + "(" + str(ships_dict[x[0].lower()]) + "):"
+            print "Place your " + x + "(" + str(my_ships_dict[x[0].lower()]) + "):"
 
             #call user input functions
             row, col = get_user_input_loc()
@@ -183,7 +184,7 @@ def deployShips(board, autoornah):
 def place_ship(board, ship, row, col, orient):
 
     #for the length of the ship as defined in the dictionary...
-    for x in range(ships_dict[ship]):
+    for x in range(my_ships_dict[ship]):
 
         #for each direction, place the letter of that ship in every
         #space along that direction with compensation for the ID row
@@ -204,20 +205,20 @@ def checkForShip(board, ship, row, col, orient):
 
 
     if orient == 's':
-        for x in range(ships_dict[ship]):
+        for x in range(my_ships_dict[ship]):
             if check_position(board, row + x +1, col) == False:
                 return False
     elif orient == 'e':
-        for x in range(ships_dict[ship]):
-            if board[row + 1][col + x] != '0':
+        for x in range(my_ships_dict[ship]):
+            if check_position(board, row + 1, col + x) == False:
                 return False
     elif orient == 'n':
-        for x in range(ships_dict[ship]):
-            if board[row - x + 1][col] != '0':
+        for x in range(my_ships_dict[ship]):
+            if check_position(board, row - x + 1, col) == False:
                 return False
     else: 
-        for x in range(ships_dict[ship]):
-            if board[row +1][col - x] != '0':
+        for x in range(my_ships_dict[ship]):
+            if check_position(board, row + 1, col - x) == False:
                 return False
 
 
@@ -227,25 +228,35 @@ def check_position(board, row, col):
 
 def checkBoundaries(ship, row, col, orient):
     if orient == 's':
-        for x in range(ships_dict[ship]):
+        for x in range(my_ships_dict[ship]):
             if (row + x) > 9:
                 return False
     elif orient == 'e':
-        for x in range(ships_dict[ship]):
+        for x in range(my_ships_dict[ship]):
             if (col + x) > 9:
                 return False
     elif orient == 'n':
-        for x in range(ships_dict[ship]):
+        for x in range(my_ships_dict[ship]):
             if (row - x) < 0:
                 return False
     else:
-        for x in range(ships_dict[ship]):
+        for x in range(my_ships_dict[ship]):
             if (col - x) < 0:
                 return False
-    
+
+
+def check_hit(board, row, col):
+    for x in ships_list:
+        if board[row+1][col] == x[0]:
+            if board[0] == 'u':
+                my_ships_dict[x[0].lower()] -= 1
+            else:
+                op_ships_dict[x[0].lower()] -= 1
+            return True
+    return False
 
 def check_fired(board, row, col):
-    if board[col][row] == '*' or board[col][row] == 'M':
+    if board[row][col] == '*' or board[row][col] == 'M':
         return False
     else:
         return True
@@ -268,6 +279,7 @@ def main():
 
     print "Computer ships deployed"
 
+    printBoard(opBoard)
     myShipsLeft = 5
     opShipsLeft = 5
 
@@ -275,7 +287,11 @@ def main():
         print "Fire at your opponent! ",
         locx, locy = get_user_input_loc()
         while check_fired(opBoard, locx, locy) == False:
+            print "Youve already shot there. Try again. "
             locx, locy = get_user_input_loc()
+        if check_hit(opBoard, locx, locy) == True:
+            print "HIT!!!!!!!!!!!!!!!!!!!!!!!!"
+
 
 
 
