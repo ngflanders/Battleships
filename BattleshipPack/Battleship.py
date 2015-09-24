@@ -268,7 +268,7 @@ def check_hit(board, row, col):
     return False
 
 def check_fired(board, row, col):
-    if board[row][col] == '*' or board[row][col] == 'M':
+    if board[row+1][col] == '*' or board[row+1][col] == 'M':
         return False
     else:
         return True
