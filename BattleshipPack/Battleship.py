@@ -47,6 +47,17 @@ def printMenu():
     print "/_____/\___/_/   \__/_/\___/____/_/ /_/\___/_/  / .___/  "
     print "                                               /_/       "
     print
+    inpoo = raw_input("Welcome to Bertlesherp! Press 'M' to manually deploy your "
+                      "ships or 'A' to have your ships automatically deployed: ")
+
+    while inpoo.upper() != 'A' and inpoo.upper() != 'M':
+        inpoo = raw_input("Invalid character! Please select 'A' or 'M': ")
+
+    if inpoo.upper() == 'A':
+        return True
+    else:
+        return False
+
 
 #********************************************************************************
 #printBoard(board) - prints out the inputted board
@@ -70,7 +81,7 @@ def printBoard(board):
     print
 
     #for the player's board...
-    if board[0] == "u":
+    if board[0] == "u" or board[0] == 'c':
 
         #print the divising line and the letter coordinate for that line from the
         #alphabet dictionary for every row in the board, excluding the ID line
@@ -202,7 +213,8 @@ def place_ship(board, ship, row, col, orient):
 
 def checkForShip(board, ship, row, col, orient):
 
-
+    #for each orientation and for every space of the ship, check if that position
+    #is currently occupied and return false if it is
     if orient == 's':
         for x in range(ships_dict[ship]):
             if check_position(board, row + x +1, col) == False:
@@ -252,12 +264,8 @@ def check_fired(board, row, col):
 
 
 def main():
-    printMenu()
-    inpoo = raw_input("Would you like to deploy your own ships or have them auto deployed? T for auto, F for manual: ")
-    if inpoo == 'T':
-        autoornah = True
-    else:
-        autoornah = False
+
+    autoornah = printMenu()
 
     deployShips(myBoard, autoornah)
 
