@@ -59,6 +59,65 @@ def printMenu():
     else:
         return False
 
+def simpleBoard(board):
+    if board[len(board)-1] == 'u':
+        print "User's board:\n"
+    else:
+        print "Computer's board:\n"
+        
+    for y in range(len(board)-1):
+        for x in range(len(board[y])):
+            print board[y][x] + " ",
+        print
+    
+def printPlayerBoard():
+
+    print "Player's board:\n"
+    print " ",
+    for letter in alphabet:
+        print "   " + str(letterspos[letter]+1) + " ",
+    print
+
+    #print the divising line and the letter coordinate for that line from the
+    #alphabet dictionary for every row in the board, excluding the ID line
+    for y in range(len(myBoard)-1):
+        print "   -----------------------------------------------------------"
+        print alphabet[y].upper(),
+
+        #for every location on the board, if it's empty, print a blank space
+        #if not, print what is at that location
+        for x in range(len(myBoard[y])):
+            if myBoard[y][x] == '0':
+                print "|    ",
+            else:
+                print "|  " + myBoard[y][x] + " ",
+        print
+
+
+def printComputerBoard():
+
+    print "Computer's board:\n"
+
+    #print out the top row of numbers using the letterspos dictionary
+    print " ",
+    for letter in alphabet:
+        print "   " + str(letterspos[letter]) + " ",
+    print
+
+    for y in range(len(opBoard)-1):
+            print "   -----------------------------------------------------------"
+            print alphabet[y].upper(),
+
+            for x in range(len(opBoard[y])):
+                if opBoard[y][x] == 'M':
+                    print "|  M ",
+                elif opBoard[y][x] == '*':
+                    print "|  * ",
+                else:
+                    print "|    ",
+            print
+
+
 
 #********************************************************************************
 #printBoard(board) - prints out the inputted board
@@ -67,52 +126,16 @@ def printMenu():
 #post - the board has been printed with identification, dividers, and coordinates
 #********************************************************************************
 
+
 def printBoard(board):
 
     #checks identification character to determine which name to print out
     if board[len(board)-1] == 'u':
-        print "User's board:\n"
+        printPlayerBoard()
     else:
-        print "Computer's board:\n"
+        printComputerBoard()
 
-    #print out the top row of numbers using the letterspos dictionary
-    print " ",
-    for letter in alphabet:
-        print "   " + str(letterspos[letter]) + " ",
-    print
 
-    #for the player's board...
-    if board[len(board)-1] == "u":
-
-        #print the divising line and the letter coordinate for that line from the
-        #alphabet dictionary for every row in the board, excluding the ID line
-        for y in range(len(board)-1):
-            print "   -----------------------------------------------------------"
-            print alphabet[y].upper(),
-
-            #for every location on the board, if it's empty, print a blank space
-            #if not, print what is at that location
-            for x in range(len(board[y])):
-                if board[y][x] == '0':
-                    print "|    ",
-                else:
-                    print "|  " + board[y][x] + " ",
-            print
-
-    else:
-
-        for y in range(len(board)-1):
-            print "   -----------------------------------------------------------"
-            print alphabet[y].upper(),
-
-            for x in range(len(board[y])):
-                if board[y][x] == 'M':
-                    print "|  M ",
-                elif board[y][x] == '*':
-                    print "|  * ",
-                else:
-                    print "|    ",
-            print
 
 #********************************************************************************
 #get_user_input_loc() - prompts the user for a location in coordinates
@@ -204,6 +227,7 @@ def deployShips(board, autoornah):
             place_ship(board, x[0].lower(), row, col, orient)
 
         #since manual deployment is always user based, print the board
+        os.system('cls' if os.name == 'nt' else 'clear')
         printBoard(board)
 
 
@@ -321,7 +345,8 @@ def main():
             print "HIT!!!!!!!!!!!!!!!!!!!!!!!!"
 
 
-
+    # deployShips(myBoard, True)
+    # simpleBoard(myBoard)
 
 
 
