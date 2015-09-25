@@ -362,6 +362,12 @@ def checkForShip(board, ship, row, col, orient):
             if check_position(board, row, col - x) == False:
                 return False
 
+#********************************************************************************
+#check_position(board, row, col) - checks if there is something at a given position
+#
+#pre - board has been initialized and valid row/col have been passed in
+#post - false has been returned if there is a non-0 at the location given
+#********************************************************************************
 
 def check_position(board, row, col):
 
@@ -369,6 +375,14 @@ def check_position(board, row, col):
     #at that location and it returns false
     if board[row][col] != '0':
         return False
+
+#********************************************************************************
+#checkBoundaries(ship, row, col, orient) - checks if the whole ship will fit at
+#                                          the given coordinates
+#
+#pre - board has been initialized and valid row/col/orientation have been passed in
+#post - false has been returned if a part of the ship will go out of bounds
+#********************************************************************************
 
 def checkBoundaries(ship, row, col, orient):
 
@@ -416,6 +430,15 @@ def checkBoundaries(ship, row, col, orient):
 #         return False
 #     else:
 #         return True
+
+def check_fired(board, row, col):
+
+    #if there is a hit/miss symbol at that location, it has already
+    #been fired at and returns false
+    if board[row][col] == '*' or board[row][col] == 'M':
+        return False
+    else:
+        return True
 
 
 def main():
