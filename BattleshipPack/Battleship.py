@@ -41,6 +41,8 @@ ships_list = ['Battleship', "Destroyer", "Submarine", "Patrol Boat", "Carrier"]
 #********************************************************************************
 
 def printMenu():
+
+    #display
     print "    ____            __  __          __                   "
     print "   / __ )___  _____/ /_/ /__  _____/ /_  ___  _________  "
     print "  / __  / _ \/ ___/ __/ / _ \/ ___/ __ \/ _ \/ ___/ __ \ "
@@ -48,31 +50,55 @@ def printMenu():
     print "/_____/\___/_/   \__/_/\___/____/_/ /_/\___/_/  / .___/  "
     print "                                               /_/       "
     print
+
+    #welcome message and prompt for auto/manual deployment
     inpoo = raw_input("Welcome to Bertlesherp! Press 'M' to manually deploy your "
                       "ships or 'A' to have your ships automatically deployed: ")
 
+    #data validation
     while inpoo.upper() != 'A' and inpoo.upper() != 'M':
         inpoo = raw_input("Invalid character! Please select 'A' or 'M': ")
 
+    #returns the result of automatic or manual choice
     if inpoo.upper() == 'A':
         return True
     else:
         return False
 
+#********************************************************************************
+#simpleBoard(board) - prints out the inputted board in a simple form for testing
+#
+#pre - an array with an identification letter is passed into the function
+#post - a simple board has been printed with all symbols shown
+#********************************************************************************
+
 def simpleBoard(board):
+
+    #identification check to print header
     if board[len(board)-1] == 'u':
         print "User's board:\n"
     else:
         print "Computer's board:\n"
-        
+
+    #for every place in the array, print what is at that location
     for y in range(len(board)-1):
         for x in range(len(board[y])):
             print board[y][x] + " ",
         print
-    
+
+#********************************************************************************
+#printPlayerBoard() - prints out the player's board
+#
+#pre - myBoard has been initialized
+#post - the player's board has been printed with ID, dividers, and coordinates,
+#       along with all of the ships on the board
+#********************************************************************************
+
 def printPlayerBoard():
 
     print "Player's board:\n"
+
+    #print out the top row of numbers using the letterspos dictionary
     print " ",
     for letter in alphabet:
         print "   " + str(letterspos[letter]+1) + " ",
@@ -93,6 +119,13 @@ def printPlayerBoard():
                 print "|  " + myBoard[y][x] + " ",
         print
 
+#********************************************************************************
+#printComputerBoard() - prints out the computer's board
+#
+#pre - opBoard has been initialized
+#post - the computer's board has been printed with ID, dividers, and coordinates,
+#       with no ships visible, only hits and misses
+#********************************************************************************
 
 def printComputerBoard():
 
@@ -104,10 +137,13 @@ def printComputerBoard():
         print "   " + str(letterspos[letter]) + " ",
     print
 
+    #print the divising line and the letter coordinate for that line from the
+    #alphabet dictionary for every row in the board, excluding the ID line
     for y in range(len(opBoard)-1):
             print "   -----------------------------------------------------------"
             print alphabet[y].upper(),
 
+            #for every location on the board, only print hits and misses
             for x in range(len(opBoard[y])):
                 if opBoard[y][x] == 'M':
                     print "|  M ",
@@ -123,13 +159,14 @@ def printComputerBoard():
 #printBoard(board) - prints out the inputted board
 #
 #pre - an array with an identification letter is passed into the function
-#post - the board has been printed with identification, dividers, and coordinates
+#post - the selected board has been printed
 #********************************************************************************
 
 
 def printBoard(board):
 
-    #checks identification character to determine which name to print out
+    #checks identification character to determine which name to print out and
+    #calls the appropriate function to print the selected board
     if board[len(board)-1] == 'u':
         printPlayerBoard()
     else:
@@ -156,12 +193,20 @@ def get_user_input_loc():
         inp = str(raw_input("Enter letter and number: "))
 
     #save input to variables and return them as coordinates, making appropriate
-    #compensation for the 0-start nature of the array and the first ID row
+    #compensation for the 0-start nature of the array
     row = letterspos[inp[0].lower()]
     col = int(inp[2:len(inp)])
 
+    #letterspos naturally returns the correct value of the array, but the column
+    #that the user inputted must be decremented
     return row, col-1
 
+#********************************************************************************
+#get_user_input_orient() - prompts the user for an orientation
+#
+#pre - none
+#post - a valid orientation has been returned
+#********************************************************************************
 
 def get_user_input_orient():
 
@@ -174,26 +219,79 @@ def get_user_input_orient():
 
     return inp
 
+#********************************************************************************
+#autoDeploy(board) - automatically deploys the ships on the given board
+#
+#pre - none
+#post - ships have been placed in valid locations in random positions
+#********************************************************************************
+
+def autoDeploy(board):
+
+    #generates a random number between 0 and 9 and a random direction from
+    #the orientation list for the starting coordinate of each ship
+    for x in ships_list:
+        row, col = random.randint(0,9), random.randint(0,9)
+        orient = random.choice(orientations)
+
+        #data validation to check the boundaries and check for other ships
+        while checkBoundaries(x[0].lower(), row, col, orient) == False or \
+                        checkForShip(board, x[0].lower(), row, col, orient) == False:
+            row, col = random.randint(0,9), random.randint(0,9)
+            orient = random.choice(orientations)
+
+        #once coordinates are good, place the ship
+        place_ship(board, x[0].lower(), row, col, orient)
+
+#********************************************************************************
+#manualDeploy(board) - places ships in inputted locations
+#
+#pre - none
+#post - ships have been placed in valid locations from user input
+#********************************************************************************
+
+def manualDeploy(board):
+
+    #place each ship in the ship list
+    for x in ships_list:
+
+        #clear the screen and print the board
+        os.system('cls' if os.name == 'nt' else 'clear')
+        printBoard(board)
+
+        #prompt to place each ship in the ship list with number of spaces allowed
+        print "Place your " + x + "(" + str(my_ships_dict[x[0].lower()]) + "):"
+
+        #call user input functions
+        row, col = get_user_input_loc()
+        orient = get_user_input_orient()
+
+        #data validation to check boundaries and check for other ships
+        while checkBoundaries(x[0].lower(), row, col, orient) == False or \
+                        checkForShip(board, x[0].lower(), row, col, orient) == False:
+            print "Please place your ship within the board where it does not overlap another ship"
+            row, col = get_user_input_loc()
+            orient = get_user_input_orient()
+
+        #when coordinates are good, place the ship
+        place_ship(board, x[0].lower(), row, col, orient)
+
+
+
+#********************************************************************************
+#deployShips(board, autoornah) - deploys ships automatically or manually
+#
+#pre - none
+#post - the appropriate deploy function has been called based on whether the
+#       calling function requested automatic or manual
+#********************************************************************************
 
 def deployShips(board, autoornah):
 
     #if deployment is automatic...
     if autoornah:
 
-        #generates a random number between 0 and 9 and a random direction from
-        #the orientation list for the starting coordinate of each ship
-        for x in ships_list:
-            row, col = random.randint(0,9), random.randint(0,9)
-            orient = random.choice(orientations)
-
-            #data validation to check the boundaries and check for other ships
-            while checkBoundaries(x[0].lower(), row, col, orient) == False or \
-                            checkForShip(board, x[0].lower(), row, col, orient) == False:
-                row, col = random.randint(0,9), random.randint(0,9)
-                orient = random.choice(orientations)
-
-            #once coordinates are good, place the ship
-            place_ship(board, x[0].lower(), row, col, orient)
+        autoDeploy(board)
 
         #if it's the user's board, print the board
         if board[len(board)-1] == "u":
@@ -202,34 +300,20 @@ def deployShips(board, autoornah):
     #if deployment is manual...
     else:
 
-        #place each ship in the ship list
-        for x in ships_list:
-
-            #clear the screen and print the board
-            os.system('cls' if os.name == 'nt' else 'clear')
-            printBoard(board)
-
-            #prompt to place each ship in the ship list with number of spaces allowed
-            print "Place your " + x + "(" + str(my_ships_dict[x[0].lower()]) + "):"
-
-            #call user input functions
-            row, col = get_user_input_loc()
-            orient = get_user_input_orient()
-
-            #data validation to check boundaries and check for other ships
-            while checkBoundaries(x[0].lower(), row, col, orient) == False or \
-                            checkForShip(board, x[0].lower(), row, col, orient) == False:
-                print "Please place your ship within the board where it does not overlap another ship"
-                row, col = get_user_input_loc()
-                orient = get_user_input_orient()
-
-            #when coordinates are good, place the ship
-            place_ship(board, x[0].lower(), row, col, orient)
+        manualDeploy(board)
 
         #since manual deployment is always user based, print the board
         os.system('cls' if os.name == 'nt' else 'clear')
         printBoard(board)
 
+#********************************************************************************
+#place_ship(board, ship, row, col, orient) - places the given ship on the given
+#                                            board at the given coordinates in the
+#                                            given orientation
+#
+#pre - valid coordinates/orientation have been passed into the function
+#post - the ship is placed
+#********************************************************************************
 
 def place_ship(board, ship, row, col, orient):
 
@@ -237,7 +321,7 @@ def place_ship(board, ship, row, col, orient):
     for x in range(my_ships_dict[ship]):
 
         #for each direction, place the letter of that ship in every
-        #space along that direction with compensation for the ID row
+        #space along that direction
         if orient == 's':
             board[row + x][col] = ship.upper()
 
@@ -250,6 +334,12 @@ def place_ship(board, ship, row, col, orient):
         else: 
             board[row][col - x] = ship.upper()
 
+#********************************************************************************
+#autoDeploy(board) - automatically deploys the ships on the given board
+#
+#pre - none
+#post - ships have been placed in valid locations in random positions
+#********************************************************************************
 
 def checkForShip(board, ship, row, col, orient):
 
@@ -274,10 +364,16 @@ def checkForShip(board, ship, row, col, orient):
 
 
 def check_position(board, row, col):
+
+    #if the position selected on the board isn't 0, then there is something
+    #at that location and it returns false
     if board[row][col] != '0':
         return False
 
 def checkBoundaries(ship, row, col, orient):
+
+    #for each orientation and for every space of the ship, check if any part
+    #of the ship is out of bounds if it is placed on the board
     if orient == 's':
         for x in range(my_ships_dict[ship]):
             if (row + x) > 9:
@@ -295,8 +391,9 @@ def checkBoundaries(ship, row, col, orient):
             if (col - x) < 0:
                 return False
 
-
 def check_hit(board, row, col):
+
+    #Nick what is happening here???
     for x in ships_list:
         if board[row][col] == x[0]:
             #board[row][col] = "*"
@@ -312,6 +409,9 @@ def check_hit(board, row, col):
     return False
 
 def check_fired(board, row, col):
+
+    #if there is a hit/miss symbol at that location, it has already
+    #been fired at and returns false
     if board[row][col] == '*' or board[row][col] == 'M':
         return False
     else:
