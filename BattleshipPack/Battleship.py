@@ -184,18 +184,19 @@ def printBoard(board):
 def get_user_input_loc():
 
     #take user input as a string
-    inp = str(raw_input("Enter letter and number: "))
+    inp = str(raw_input("Enter letter and number (separated by a space): "))
 
     #data validation to check if the first item is a valid character and the
     #second item is a valid number on the board
     while inp[0].lower() not in letterspos or int(inp[2:len(inp)]) > 10:
         print "Please choose a letter and number from the board"
-        inp = str(raw_input("Enter letter and number: "))
+        inp = str(raw_input("Enter letter and number (separated by a space): "))
 
     #save input to variables and return them as coordinates, making appropriate
     #compensation for the 0-start nature of the array
     row = letterspos[inp[0].lower()]
     col = int(inp[2:len(inp)])
+
 
     #letterspos naturally returns the correct value of the array, but the column
     #that the user inputted must be decremented
@@ -447,7 +448,7 @@ def main():
 
     deployShips(myBoard, autoornah)
 
-    print "All ships deployed"
+    print "\nAll ships deployed"
     print "Computer deploying ships..."
 
     deployShips(opBoard, True)
