@@ -1,7 +1,16 @@
 '''
-Created on Sep 21, 2015
+Battleship.py
 
-@author: Nick Flanders, Nicole Gerber
+Authors: Nick Flanders, Nicole Gerber
+Course: CSCI 220
+Date: 9/18/15
+Description: This program, at the moment, prints a menu and allows the user to deploy their
+             ships manually or automatically. Then, if they want to manually deploy their
+             ships, prompts them to place each ship with proper data validation. If they
+             chose automatic, their ships are automatically placed in random locations. Then,
+             their board is printed and the computer's ships are deployed automatically. The
+             computer's blank board is printed and then, after a pause, the simple boards
+             showing all of the boards is printed.
 '''
 
 #import libraries
@@ -446,24 +455,32 @@ def checkBoundaries(ship, row, col, orient):
 
 def main():
 
+    #printMenu returns decision of user to auto deploy or manual
     autoornah = printMenu()
 
+    #deploy user's ships based on deployment decision
     deployShips(myBoard, autoornah)
 
+    #success message, computer deployment
     print "\nAll ships deployed"
     print "Computer deploying ships..."
 
+    #deploy computer's ships automatically
     deployShips(opBoard, True)
 
+    #success message
     print "Computer ships deployed\n"
 
+    #pause to view computer board
     raw_input("Press Enter to see simple boards...")
 
+    #print the simple boards with all elements of array visible
     print "Simple boards:\n"
 
     simpleBoard(myBoard)
     simpleBoard(opBoard)
 
+    #closing message
     print "Thanks for playing Bertlesherp!"
 
     # myShipsLeft = 5
