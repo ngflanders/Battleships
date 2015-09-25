@@ -85,6 +85,7 @@ def simpleBoard(board):
         for x in range(len(board[y])):
             print board[y][x] + " ",
         print
+    print
 
 #********************************************************************************
 #printPlayerBoard() - prints out the player's board
@@ -152,6 +153,7 @@ def printComputerBoard():
                 else:
                     print "|    ",
             print
+    print
 
 
 
@@ -432,6 +434,7 @@ def checkBoundaries(ship, row, col, orient):
 #     else:
 #         return True
 
+def check_fired(board, row, col):
 
 # def check_fired(board, row, col):
 #
@@ -454,9 +457,17 @@ def main():
 
     deployShips(opBoard, True)
 
-    print "Computer ships deployed"
+    print "Computer ships deployed\n"
 
-    printBoard(opBoard)
+    raw_input("Press Enter to see simple boards...")
+
+    print "Simple boards:\n"
+
+    simpleBoard(myBoard)
+    simpleBoard(opBoard)
+
+    print "Thanks for playing Bertlesherp!"
+
     # myShipsLeft = 5
     # opShipsLeft = 5
     #
