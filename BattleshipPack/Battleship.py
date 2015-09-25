@@ -391,31 +391,31 @@ def checkBoundaries(ship, row, col, orient):
             if (col - x) < 0:
                 return False
 
-def check_hit(board, row, col):
+# def check_hit(board, row, col):
+#
+#     #Nick what is happening here???
+#     for x in ships_list:
+#         if board[row][col] == x[0]:
+#             #board[row][col] = "*"
+#             if board[len(board)-1] == 'u':
+#                 my_ships_dict[x[0].lower()] -= 1
+#             else:
+#                 op_ships_dict[x[0].lower()] -= 1
+#             return True
+#    # temp = list(board[row][col])
+#     #temp = "M"
+#     #str(temp)
+#     #board[row][col] = "M"
+#     return False
 
-    #Nick what is happening here???
-    for x in ships_list:
-        if board[row][col] == x[0]:
-            #board[row][col] = "*"
-            if board[len(board)-1] == 'u':
-                my_ships_dict[x[0].lower()] -= 1
-            else:
-                op_ships_dict[x[0].lower()] -= 1
-            return True
-   # temp = list(board[row][col])
-    #temp = "M"
-    #str(temp)
-    #board[row][col] = "M"
-    return False
-
-def check_fired(board, row, col):
-
-    #if there is a hit/miss symbol at that location, it has already
-    #been fired at and returns false
-    if board[row][col] == '*' or board[row][col] == 'M':
-        return False
-    else:
-        return True
+# def check_fired(board, row, col):
+#
+#     #if there is a hit/miss symbol at that location, it has already
+#     #been fired at and returns false
+#     if board[row][col] == '*' or board[row][col] == 'M':
+#         return False
+#     else:
+#         return True
 
 
 def main():
@@ -432,17 +432,17 @@ def main():
     print "Computer ships deployed"
 
     printBoard(opBoard)
-    myShipsLeft = 5
-    opShipsLeft = 5
-
-    while (myShipsLeft > 0 and opShipsLeft > 0):
-        print "Fire at your opponent! ",
-        locx, locy = get_user_input_loc()
-        while check_fired(opBoard, locx, locy) == False:
-            print "Youve already shot there. Try again. "
-            locx, locy = get_user_input_loc()
-        if check_hit(opBoard, locx, locy) == True:
-            print "HIT!!!!!!!!!!!!!!!!!!!!!!!!"
+    # myShipsLeft = 5
+    # opShipsLeft = 5
+    #
+    # while (myShipsLeft > 0 and opShipsLeft > 0):
+    #     print "Fire at your opponent! ",
+    #     locx, locy = get_user_input_loc()
+    #     while check_fired(opBoard, locx, locy) == False:
+    #         print "Youve already shot there. Try again. "
+    #         locx, locy = get_user_input_loc()
+    #     if check_hit(opBoard, locx, locy) == True:
+    #         print "HIT!!!!!!!!!!!!!!!!!!!!!!!!"
 
 
     # deployShips(myBoard, True)
