@@ -434,7 +434,6 @@ def checkBoundaries(ship, row, col, orient):
 #     else:
 #         return True
 
-def check_fired(board, row, col):
 
 # def check_fired(board, row, col):
 #
