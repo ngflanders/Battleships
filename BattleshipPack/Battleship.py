@@ -34,7 +34,8 @@ letterspos = {'a': 0, 'b': 1, 'c':2, 'd':3, 'e':4,'f':5,'g':6,'h':7, 'i': 8, 'j'
 my_ships_dict = {'b':4, 'd': 4, 's': 3, 'p': 2,'c':5}
 op_ships_dict = {'b':4, 'd': 4, 's': 3, 'p': 2,'c':5}
 ships_list = ['Battleship', "Destroyer", "Submarine", "Patrol Boat", "Carrier"]
-
+myShipsLeft = 5
+opShipsLeft = 5
 #********************************************************************************
 # printMenu() - prints out the name of the game
 #
@@ -423,8 +424,14 @@ def check_hit(board, row, col):
             # decrement the lives value of the ship
             if board[len(board)-1] == 'u':
                 my_ships_dict[ship_name[0].lower()] -= 1
+                if my_ships_dict[ship_name[0].lower()] == 0:
+                    print "You sunk their " + ship_name
+
             else:
                 op_ships_dict[ship_name[0].lower()] -= 1
+                if op_ships_dict[ship_name[0].lower()] == 0:
+                    print "You sunk my " + ship_name
+
             return True
 
     # turn the string into a list for manipulation, then change the value then convert back to string
@@ -501,10 +508,14 @@ def main():
     simpleBoard(opBoard)
 
 
-    myShipsLeft = 5
-    opShipsLeft = 5
+
+    # BEGIN GAME PLAY
+
+
 
     while (myShipsLeft > 0 and opShipsLeft > 0):
+
+        # USER'S TURN
         print "Fire at your opponent! ",
         locx, locy = get_user_input_loc()
         while check_fired(opBoard, locx, locy) == False:
@@ -512,6 +523,18 @@ def main():
             locx, locy = get_user_input_loc()
         if check_hit(opBoard, locx, locy) == True:
             print "HIT!!!!!!!!!!!!!!!!!!!!!!!!"
+
+
+        # OP'S TURN
+        row, col = random.randint(0,9), random.randint(0,9)
+        while check_fired(myBoard, row, col) == False:
+            row, col = random.randint(0,9), random.randint(0,9)
+        if check_hit(myBoard, row, col) == True:
+            print "Youve been hit!!!!!!!!!!!!!!"
+
+        print "Mine: "
+        simpleBoard(myBoard)
+        print "Opponent: "
         simpleBoard(opBoard)
 
     # closing message
