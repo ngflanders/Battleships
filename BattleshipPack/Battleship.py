@@ -13,7 +13,7 @@ Description: This program, at the moment, prints a menu and allows the user to d
              showing all of the boards is printed.
 '''
 
-#import libraries
+
 import os
 import time
 import random
@@ -43,10 +43,10 @@ op_ships_dict = {'b':4, 'd': 4, 's': 3, 'p': 2,'c':5}
 ships_list = ['Battleship', "Destroyer", "Submarine", "Patrol Boat", "Carrier"]
 
 #********************************************************************************
-#printMenu() - prints out the name of the game
+# printMenu() - prints out the name of the game
 #
-#pre - none
-#post - menu has been printed
+# pre - none
+# post - menu has been printed
 #********************************************************************************
 
 def printMenu():
@@ -75,10 +75,10 @@ def printMenu():
         return False
 
 #********************************************************************************
-#simpleBoard(board) - prints out the inputted board in a simple form for testing
+# simpleBoard(board) - prints out the inputted board in a simple form for testing
 #
-#pre - an array with an identification letter is passed into the function
-#post - a simple board has been printed with all symbols shown
+# pre - an array with an identification letter is passed into the function
+# post - a simple board has been printed with all symbols shown
 #********************************************************************************
 
 def simpleBoard(board):
@@ -97,10 +97,10 @@ def simpleBoard(board):
     print
 
 #********************************************************************************
-#printPlayerBoard() - prints out the player's board
+# printPlayerBoard() - prints out the player's board
 #
-#pre - myBoard has been initialized
-#post - the player's board has been printed with ID, dividers, and coordinates,
+# pre - myBoard has been initialized
+# post - the player's board has been printed with ID, dividers, and coordinates,
 #       along with all of the ships on the board
 #********************************************************************************
 
@@ -130,10 +130,10 @@ def printPlayerBoard():
         print
 
 #********************************************************************************
-#printComputerBoard() - prints out the computer's board
+# printComputerBoard() - prints out the computer's board
 #
-#pre - opBoard has been initialized
-#post - the computer's board has been printed with ID, dividers, and coordinates,
+# pre - opBoard has been initialized
+# post - the computer's board has been printed with ID, dividers, and coordinates,
 #       with no ships visible, only hits and misses
 #********************************************************************************
 
@@ -150,27 +150,27 @@ def printComputerBoard():
     #print the divising line and the letter coordinate for that line from the
     #alphabet dictionary for every row in the board, excluding the ID line
     for y in range(len(opBoard)-1):
-            print "   -----------------------------------------------------------"
-            print alphabet[y].upper(),
+        print "   -----------------------------------------------------------"
+        print alphabet[y].upper(),
 
-            #for every location on the board, only print hits and misses
-            for x in range(len(opBoard[y])):
-                if opBoard[y][x] == 'M':
-                    print "|  M ",
-                elif opBoard[y][x] == '*':
-                    print "|  * ",
-                else:
-                    print "|    ",
-            print
+        #for every location on the board, only print hits and misses
+        for x in range(len(opBoard[y])):
+            if opBoard[y][x] == 'M':
+                print "|  M ",
+            elif opBoard[y][x] == '*':
+                print "|  * ",
+            else:
+                print "|    ",
+        print
     print
 
 
 
 #********************************************************************************
-#printBoard(board) - prints out the inputted board
+# printBoard(board) - prints out the inputted board
 #
-#pre - an array with an identification letter is passed into the function
-#post - the selected board has been printed
+# pre - an array with an identification letter is passed into the function
+# post - the selected board has been printed
 #********************************************************************************
 
 
@@ -186,10 +186,10 @@ def printBoard(board):
 
 
 #********************************************************************************
-#get_user_input_loc() - prompts the user for a location in coordinates
+# get_user_input_loc() - prompts the user for a location in coordinates
 #
-#pre - none
-#post - valid coordinate points have been parsed and returned
+# pre - none
+# post - valid coordinate points have been parsed and returned
 #********************************************************************************
 
 def get_user_input_loc():
@@ -214,10 +214,10 @@ def get_user_input_loc():
     return row, col-1
 
 #********************************************************************************
-#get_user_input_orient() - prompts the user for an orientation
+# get_user_input_orient() - prompts the user for an orientation
 #
-#pre - none
-#post - a valid orientation has been returned
+# pre - none
+# post - a valid orientation has been returned
 #********************************************************************************
 
 def get_user_input_orient():
@@ -232,10 +232,10 @@ def get_user_input_orient():
     return inp
 
 #********************************************************************************
-#autoDeploy(board) - automatically deploys the ships on the given board
+# autoDeploy(board) - automatically deploys the ships on the given board
 #
-#pre - none
-#post - ships have been placed in valid locations in random positions
+# pre - none
+# post - ships have been placed in valid locations in random positions
 #********************************************************************************
 
 def autoDeploy(board):
@@ -256,10 +256,10 @@ def autoDeploy(board):
         place_ship(board, x[0].lower(), row, col, orient)
 
 #********************************************************************************
-#manualDeploy(board) - places ships in inputted locations
+# manualDeploy(board) - places ships in inputted locations
 #
-#pre - none
-#post - ships have been placed in valid locations from user input
+# pre - none
+# post - ships have been placed in valid locations from user input
 #********************************************************************************
 
 def manualDeploy(board):
@@ -268,7 +268,8 @@ def manualDeploy(board):
     for x in ships_list:
 
         #clear the screen and print the board
-        os.system('cls' if os.name == 'nt' else 'clear')
+        cls()
+        #os.system('cls' if os.name == 'nt' else 'clear')
         printBoard(board)
 
         #prompt to place each ship in the ship list with number of spaces allowed
@@ -291,10 +292,10 @@ def manualDeploy(board):
 
 
 #********************************************************************************
-#deployShips(board, autoornah) - deploys ships automatically or manually
+# deployShips(board, autoornah) - deploys ships automatically or manually
 #
-#pre - none
-#post - the appropriate deploy function has been called based on whether the
+# pre - none
+# post - the appropriate deploy function has been called based on whether the
 #       calling function requested automatic or manual
 #********************************************************************************
 
@@ -315,16 +316,17 @@ def deployShips(board, autoornah):
         manualDeploy(board)
 
         #since manual deployment is always user based, print the board
-        os.system('cls' if os.name == 'nt' else 'clear')
+        cls()
+        #os.system('cls' if os.name == 'nt' else 'clear')
         printBoard(board)
 
 #********************************************************************************
-#place_ship(board, ship, row, col, orient) - places the given ship on the given
+# place_ship(board, ship, row, col, orient) - places the given ship on the given
 #                                            board at the given coordinates in the
 #                                            given orientation
 #
-#pre - valid coordinates/orientation have been passed into the function
-#post - the ship is placed
+# pre - valid coordinates/orientation have been passed into the function
+# post - the ship is placed
 #********************************************************************************
 
 def place_ship(board, ship, row, col, orient):
@@ -343,14 +345,14 @@ def place_ship(board, ship, row, col, orient):
         elif orient == 'n':
             board[row - x][col] = ship.upper()
 
-        else: 
+        else:
             board[row][col - x] = ship.upper()
 
 #********************************************************************************
-#autoDeploy(board) - automatically deploys the ships on the given board
+# autoDeploy(board) - automatically deploys the ships on the given board
 #
-#pre - none
-#post - ships have been placed in valid locations in random positions
+# pre - none
+# post - ships have been placed in valid locations in random positions
 #********************************************************************************
 
 def checkForShip(board, ship, row, col, orient):
@@ -369,16 +371,16 @@ def checkForShip(board, ship, row, col, orient):
         for x in range(my_ships_dict[ship]):
             if check_position(board, row - x, col) == False:
                 return False
-    else: 
+    else:
         for x in range(my_ships_dict[ship]):
             if check_position(board, row, col - x) == False:
                 return False
 
 #********************************************************************************
-#check_position(board, row, col) - checks if there is something at a given position
+# check_position(board, row, col) - checks if there is something at a given position
 #
-#pre - board has been initialized and valid row/col have been passed in
-#post - false has been returned if there is a non-0 at the location given
+# pre - board has been initialized and valid row/col have been passed in
+# post - false has been returned if there is a non-0 at the location given
 #********************************************************************************
 
 def check_position(board, row, col):
@@ -389,11 +391,11 @@ def check_position(board, row, col):
         return False
 
 #********************************************************************************
-#checkBoundaries(ship, row, col, orient) - checks if the whole ship will fit at
+# checkBoundaries(ship, row, col, orient) - checks if the whole ship will fit at
 #                                          the given coordinates
 #
-#pre - board has been initialized and valid row/col/orientation have been passed in
-#post - false has been returned if a part of the ship will go out of bounds
+# pre - board has been initialized and valid row/col/orientation have been passed in
+# post - false has been returned if a part of the ship will go out of bounds
 #********************************************************************************
 
 def checkBoundaries(ship, row, col, orient):
@@ -417,45 +419,54 @@ def checkBoundaries(ship, row, col, orient):
             if (col - x) < 0:
                 return False
 
-# def check_hit(board, row, col):
+def check_hit(board, row, col):
+    for x in ships_list:
+        if board[row][col] == x[0]:
+            #board[row][col] = "*"
+            if board[len(board)-1] == 'u':
+                my_ships_dict[x[0].lower()] -= 1
+            else:
+                op_ships_dict[x[0].lower()] -= 1
+            return True
+    #temp = list(board[row][col])
+    #temp = "M"
+    #str(temp)
+    #board[row][col] = "M"
+    return False
+
+def check_fired(board, row, col):
+
+    #if there is a hit/miss symbol at that location, it has already
+    #been fired at and returns false
+    if board[row][col] == '*' or board[row][col] == 'M':
+        return False
+    else:
+        return True
+
+
+
+
+#********************************************************************************
+# cls() -
 #
-#     #Nick what is happening here???
-#     for x in ships_list:
-#         if board[row][col] == x[0]:
-#             #board[row][col] = "*"
-#             if board[len(board)-1] == 'u':
-#                 my_ships_dict[x[0].lower()] -= 1
-#             else:
-#                 op_ships_dict[x[0].lower()] -= 1
-#             return True
-#    # temp = list(board[row][col])
-#     #temp = "M"
-#     #str(temp)
-#     #board[row][col] = "M"
-#     return False
-
-# def check_fired(board, row, col):
 #
-#     #if there is a hit/miss symbol at that location, it has already
-#     #been fired at and returns false
-#     if board[row][col] == '*' or board[row][col] == 'M':
-#         return False
-#     else:
-#         return True
-
-
-# def check_fired(board, row, col):
 #
-#     #if there is a hit/miss symbol at that location, it has already
-#     #been fired at and returns false
-#     if board[row][col] == '*' or board[row][col] == 'M':
-#         return False
-#     else:
-#         return True
+# pre:
+# post:
+#********************************************************************************
+def cls():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
+#********************************************************************************
+# main()-
+#
+#
+#
+# pre:
+# post:
+#********************************************************************************
 def main():
-
     #printMenu returns decision of user to auto deploy or manual
     autoornah = printMenu()
 
@@ -481,28 +492,31 @@ def main():
     simpleBoard(myBoard)
     simpleBoard(opBoard)
 
+
+    myShipsLeft = 5
+    opShipsLeft = 5
+
+    while (myShipsLeft > 0 and opShipsLeft > 0):
+        print "Fire at your opponent! ",
+        locx, locy = get_user_input_loc()
+        while check_fired(opBoard, locx, locy) == False:
+            print "Youve already shot there. Try again. "
+            locx, locy = get_user_input_loc()
+        if check_hit(opBoard, locx, locy) == True:
+            print "HIT!!!!!!!!!!!!!!!!!!!!!!!!"
+
+
     #closing message
     print "Thanks for playing Bertlesherp!"
 
-    # myShipsLeft = 5
-    # opShipsLeft = 5
-    #
-    # while (myShipsLeft > 0 and opShipsLeft > 0):
-    #     print "Fire at your opponent! ",
-    #     locx, locy = get_user_input_loc()
-    #     while check_fired(opBoard, locx, locy) == False:
-    #         print "Youve already shot there. Try again. "
-    #         locx, locy = get_user_input_loc()
-    #     if check_hit(opBoard, locx, locy) == True:
-    #         print "HIT!!!!!!!!!!!!!!!!!!!!!!!!"
 
-
-    # deployShips(myBoard, True)
-    # simpleBoard(myBoard)
-
-
-
-
-
-main()
-
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   Call to run the main program
+#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if __name__=='__main__':
+		random.seed(time.time())
+		cls()
+		main()
+		raw_input('Press ENTER to continue...')
+		cls()
