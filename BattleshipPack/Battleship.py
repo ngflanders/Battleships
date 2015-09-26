@@ -226,18 +226,18 @@ def autoDeploy(board):
 
     # generates a random number between 0 and 9 and a random direction from
     # the orientation list for the starting coordinate of each ship
-    for x in ships_list:
+    for ship_name in ships_list:
         row, col = random.randint(0,9), random.randint(0,9)
         orient = random.choice(orientations)
 
         # data validation to check the boundaries and check for other ships
-        while checkBoundaries(x[0].lower(), row, col, orient) == False or \
-                        checkForShip(board, x[0].lower(), row, col, orient) == False:
+        while checkBoundaries(ship_name[0].lower(), row, col, orient) == False or \
+                        checkForShip(board, ship_name[0].lower(), row, col, orient) == False:
             row, col = random.randint(0,9), random.randint(0,9)
             orient = random.choice(orientations)
 
         # once coordinates are good, place the ship
-        place_ship(board, x[0].lower(), row, col, orient)
+        place_ship(board, ship_name[0].lower(), row, col, orient)
 
 #********************************************************************************
 # manualDeploy(board) - places ships in inputted locations
@@ -248,29 +248,28 @@ def autoDeploy(board):
 def manualDeploy(board):
 
     # place each ship in the ship list
-    for x in ships_list:
+    for ship_name in ships_list:
 
         # clear the screen and print the board
         cls()
-        # os.system('cls' if os.name == 'nt' else 'clear')
         printBoard(board)
 
         # prompt to place each ship in the ship list with number of spaces allowed
-        print "Place your " + x + "(" + str(my_ships_dict[x[0].lower()]) + "):"
+        print "Place your " + ship_name + "(" + str(my_ships_dict[ship_name[0].lower()]) + "):"
 
         # call user input functions
         row, col = get_user_input_loc()
         orient = get_user_input_orient()
 
         # data validation to check boundaries and check for other ships
-        while checkBoundaries(x[0].lower(), row, col, orient) == False or \
-                        checkForShip(board, x[0].lower(), row, col, orient) == False:
+        while checkBoundaries(ship_name[0].lower(), row, col, orient) == False or \
+                        checkForShip(board, ship_name[0].lower(), row, col, orient) == False:
             print "Please place your ship within the board where it does not overlap another ship"
             row, col = get_user_input_loc()
             orient = get_user_input_orient()
 
         # when coordinates are good, place the ship
-        place_ship(board, x[0].lower(), row, col, orient)
+        place_ship(board, ship_name[0].lower(), row, col, orient)
 
 
 
@@ -299,7 +298,6 @@ def deployShips(board, autoornah):
 
         # since manual deployment is always user based, print the board
         cls()
-        # os.system('cls' if os.name == 'nt' else 'clear')
         printBoard(board)
 
 #********************************************************************************
@@ -339,18 +337,26 @@ def checkForShip(board, ship, row, col, orient):
 
     # for each orientation and for every space of the ship, check if that position
     # is currently occupied and return false if it is
+
+    # south
     if orient == 's':
         for x in range(my_ships_dict[ship]):
             if check_position(board, row + x, col) == False:
                 return False
+
+    # east
     elif orient == 'e':
         for x in range(my_ships_dict[ship]):
             if check_position(board, row, col + x) == False:
                 return False
+
+    # north
     elif orient == 'n':
         for x in range(my_ships_dict[ship]):
             if check_position(board, row - x, col) == False:
                 return False
+
+    # west
     else:
         for x in range(my_ships_dict[ship]):
             if check_position(board, row, col - x) == False:
@@ -407,13 +413,13 @@ def checkBoundaries(ship, row, col, orient):
 # post:
 #********************************************************************************
 def check_hit(board, row, col):
-    for x in ships_list:
-        if board[row][col] == x[0]:
+    for ship_name in ships_list:
+        if board[row][col] == ship_name[0]:
             #board[row][col] = "*"
             if board[len(board)-1] == 'u':
-                my_ships_dict[x[0].lower()] -= 1
+                my_ships_dict[ship_name[0].lower()] -= 1
             else:
-                op_ships_dict[x[0].lower()] -= 1
+                op_ships_dict[ship_name[0].lower()] -= 1
             return True
     #temp = list(board[row][col])
     #temp = "M"
