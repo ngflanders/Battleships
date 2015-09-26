@@ -415,16 +415,22 @@ def checkBoundaries(ship, row, col, orient):
 def check_hit(board, row, col):
     for ship_name in ships_list:
         if board[row][col] == ship_name[0]:
-            #board[row][col] = "*"
+            # turn the string into a list for manipulation, then change the value then convert back to string
+            temp = list(board[row][col])
+            temp[0] = "*"
+            board[row][col] = "".join(temp)
+
+            # decrement the lives value of the ship
             if board[len(board)-1] == 'u':
                 my_ships_dict[ship_name[0].lower()] -= 1
             else:
                 op_ships_dict[ship_name[0].lower()] -= 1
             return True
-    #temp = list(board[row][col])
-    #temp = "M"
-    #str(temp)
-    #board[row][col] = "M"
+
+    # turn the string into a list for manipulation, then change the value then convert back to string
+    temp = list(board[row][col])
+    temp[0] = "M"
+    board[row][col] = "".join(temp)
     return False
 
 
@@ -506,7 +512,7 @@ def main():
             locx, locy = get_user_input_loc()
         if check_hit(opBoard, locx, locy) == True:
             print "HIT!!!!!!!!!!!!!!!!!!!!!!!!"
-
+        simpleBoard(opBoard)
 
     # closing message
     print "Thanks for playing Bertlesherp!"
