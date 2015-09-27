@@ -279,7 +279,7 @@ def manualDeploy(board):
 #
 # pre - none
 # post - the appropriate deploy function has been called based on whether the
-#       calling function requested automatic or manual
+#        calling function requested automatic or manual
 #********************************************************************************
 def deployShips(board, autoornah):
 
@@ -330,11 +330,12 @@ def place_ship(board, ship, row, col, orient):
 
 
 #********************************************************************************
-# autoDeploy(board) - automatically deploys the ships on the given board
+# checkForShip(board, ship, row, col, orient) - automatically deploys the ships on the given board
 #
 # pre - none
 # post - ships have been placed in valid locations in random positions
 #********************************************************************************
+
 def checkForShip(board, ship, row, col, orient):
 
     # for each orientation and for every space of the ship, check if that position
@@ -456,7 +457,7 @@ def check_sunk(board):
                 my_ships_dict[ship_name[0].lower()] -= 1
         else:
             if op_ships_dict[ship_name[0].lower()] == 0:
-                print "They sunk your " + ship_name
+                print "You sunk their " + ship_name
                 global opShipsLeft
                 opShipsLeft -= 1
                 op_ships_dict[ship_name[0].lower()] -= 1
@@ -564,7 +565,7 @@ def main():
         print "Opponent: "
         simpleBoard(opBoard)
 
-    if myShipsLeft ==0:
+    if myShipsLeft == 0:
         print "\nYou lost :("
     else:
         print "\nYou won!"
