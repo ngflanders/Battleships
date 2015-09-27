@@ -328,6 +328,7 @@ def place_ship(board, ship, row, col, orient):
         else:
             board[row][col - x] = ship.upper()
 
+
 #********************************************************************************
 # autoDeploy(board) - automatically deploys the ships on the given board
 #
@@ -424,17 +425,9 @@ def check_hit(board, row, col):
             # decrement the lives value of the ship
             if board[len(board)-1] == 'u':
                 my_ships_dict[ship_name[0].lower()] -= 1
-                if my_ships_dict[ship_name[0].lower()] == 0:
-                    print "They sunk your " + ship_name
-                    global myShipsLeft
-                    myShipsLeft -= 1
 
             else:
                 op_ships_dict[ship_name[0].lower()] -= 1
-                if op_ships_dict[ship_name[0].lower()] == 0:
-                    print "You sunk their " + ship_name
-                    global opShipsLeft
-                    opShipsLeft -= 1
 
             return True
 
@@ -443,6 +436,30 @@ def check_hit(board, row, col):
     temp[0] = "M"
     board[row][col] = "".join(temp)
     return False
+
+
+#********************************************************************************
+# check_sunk(board) -
+#
+#
+#
+# pre:
+# post:
+#********************************************************************************
+def check_sunk(board):
+    for ship_name in ships_list:
+        if board[len(board)-1] == 'u':
+            if my_ships_dict[ship_name[0].lower()] == 0:
+                print "They sunk your " + ship_name
+                global myShipsLeft
+                myShipsLeft -= 1
+                my_ships_dict[ship_name[0].lower()] -= 1
+        else:
+            if op_ships_dict[ship_name[0].lower()] == 0:
+                print "They sunk your " + ship_name
+                global opShipsLeft
+                opShipsLeft -= 1
+                op_ships_dict[ship_name[0].lower()] -= 1
 
 
 #********************************************************************************
@@ -527,6 +544,7 @@ def main():
             locx, locy = get_user_input_loc()
         if check_hit(opBoard, locx, locy) == True:
             print "HIT!!!!!!!!!!!!!!!!!!!!!!!!"
+            check_sunk(opBoard)
         else:
             print "Miss :("
 
@@ -537,6 +555,7 @@ def main():
             row, col = random.randint(0,9), random.randint(0,9)
         if check_hit(myBoard, row, col) == True:
             print "You've been hit!!!!!!!!!!!!!!"
+            check_sunk(myBoard)
         else:
             print "Your opponent missed"
 
