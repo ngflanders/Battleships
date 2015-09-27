@@ -425,12 +425,16 @@ def check_hit(board, row, col):
             if board[len(board)-1] == 'u':
                 my_ships_dict[ship_name[0].lower()] -= 1
                 if my_ships_dict[ship_name[0].lower()] == 0:
-                    print "You sunk their " + ship_name
+                    print "They sunk your " + ship_name
+                    global myShipsLeft
+                    myShipsLeft -= 1
 
             else:
                 op_ships_dict[ship_name[0].lower()] -= 1
                 if op_ships_dict[ship_name[0].lower()] == 0:
-                    print "You sunk my " + ship_name
+                    print "You sunk their " + ship_name
+                    global opShipsLeft
+                    opShipsLeft -= 1
 
             return True
 
@@ -519,10 +523,12 @@ def main():
         print "Fire at your opponent! ",
         locx, locy = get_user_input_loc()
         while check_fired(opBoard, locx, locy) == False:
-            print "Youve already shot there. Try again. "
+            print "You've already shot there. Try again. "
             locx, locy = get_user_input_loc()
         if check_hit(opBoard, locx, locy) == True:
             print "HIT!!!!!!!!!!!!!!!!!!!!!!!!"
+        else:
+            print "Miss :("
 
 
         # OP'S TURN
@@ -530,13 +536,19 @@ def main():
         while check_fired(myBoard, row, col) == False:
             row, col = random.randint(0,9), random.randint(0,9)
         if check_hit(myBoard, row, col) == True:
-            print "Youve been hit!!!!!!!!!!!!!!"
+            print "You've been hit!!!!!!!!!!!!!!"
+        else:
+            print "Your opponent missed"
 
         print "Mine: "
         simpleBoard(myBoard)
         print "Opponent: "
         simpleBoard(opBoard)
 
+    if myShipsLeft ==0:
+        print "\nYou lost :("
+    else:
+        print "\nYou won!"
     # closing message
     print "Thanks for playing Bertlesherp!"
 
