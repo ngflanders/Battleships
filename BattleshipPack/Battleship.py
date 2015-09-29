@@ -414,8 +414,9 @@ def checkBoundaries(ship, row, col, orient):
 #                              put a '*' and decrement the lives of that ship,
 #                              otherwise put a 'M' for miss
 #
-# pre:
-# post:
+# pre: valid board/row/col have been passed in
+# post: the appropriate symbol has been placed on the board and the validity of
+#       the shot has been returned
 #********************************************************************************
 def check_hit(board, row, col):
 
