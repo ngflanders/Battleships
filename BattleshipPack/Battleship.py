@@ -370,6 +370,7 @@ def checkForShip(board, ship, row, col, orient):
 #********************************************************************************
 # check_position(board, row, col) - checks if there is something at a given position
 #
+#
 # pre - board has been initialized and valid row/col have been passed in
 # post - false has been returned if there is a non-0 at the location given
 #********************************************************************************
