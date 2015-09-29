@@ -36,6 +36,7 @@ op_ships_dict = {'b':4, 'd': 4, 's': 3, 'p': 2,'c':5}
 ships_list = ['Battleship', "Destroyer", "Submarine", "Patrol Boat", "Carrier"]
 myShipsLeft = 5
 opShipsLeft = 5
+
 #********************************************************************************
 # printMenu() - prints out the name of the game
 #
@@ -330,10 +331,11 @@ def place_ship(board, ship, row, col, orient):
 
 
 #********************************************************************************
-# checkForShip(board, ship, row, col, orient) - automatically deploys the ships on the given board
+# checkForShip(board, ship, row, col, orient) - checks if there are any ships in
+#                                               the area before placing a ship
 #
-# pre - none
-# post - ships have been placed in valid locations in random positions
+# pre - in-bound coordinates and orientation have been passed in
+# post - true or false has been returned depending on whether there is a ship there
 #********************************************************************************
 
 def checkForShip(board, ship, row, col, orient):
@@ -408,22 +410,28 @@ def checkBoundaries(ship, row, col, orient):
 
 
 #********************************************************************************
-# check_hit(board, row, col) -
-#
-#
+# check_hit(board, row, col) - if there is a ship at the location fired at,
+#                              put a '*' and decrement the lives of that ship,
+#                              otherwise put a 'M' for miss
 #
 # pre:
 # post:
 #********************************************************************************
 def check_hit(board, row, col):
+
+    #for every ship in the ships list...
     for ship_name in ships_list:
+
+        #if the location fired at contains that ship...
         if board[row][col] == ship_name[0]:
-            # turn the string into a list for manipulation, then change the value then convert back to string
+
+            # turns the string into a list for manipulation, then change the value
+            # then convert back to string
             temp = list(board[row][col])
             temp[0] = "*"
             board[row][col] = "".join(temp)
 
-            # decrement the lives value of the ship
+            # decrement the lives value of the ship for the inputted player
             if board[len(board)-1] == 'u':
                 my_ships_dict[ship_name[0].lower()] -= 1
 
@@ -432,7 +440,8 @@ def check_hit(board, row, col):
 
             return True
 
-    # turn the string into a list for manipulation, then change the value then convert back to string
+    # if there were no ships at that location, it was a miss, turns the string
+    # into a list for manipulation, then change the value then convert back to string
     temp = list(board[row][col])
     temp[0] = "M"
     board[row][col] = "".join(temp)
@@ -440,22 +449,32 @@ def check_hit(board, row, col):
 
 
 #********************************************************************************
-# check_sunk(board) -
+# check_sunk(board) - returns a message if a ship was sunk
 #
-#
-#
-# pre:
-# post:
+# pre: initialized board has been passed in
+# post: A sunk message has been displayed if the ship was sunk
 #********************************************************************************
 def check_sunk(board):
+
+    #for each ship in the list...
     for ship_name in ships_list:
+
+        #for the user...
         if board[len(board)-1] == 'u':
+
+            #if any of the ships has 0 lives left, display a sunk message, decrement
+            #the number of ships left, and set the sunk ship to -1 as to not be
+            #triggerd for being sunk again
             if my_ships_dict[ship_name[0].lower()] == 0:
                 print "They sunk your " + ship_name
                 global myShipsLeft
                 myShipsLeft -= 1
                 my_ships_dict[ship_name[0].lower()] -= 1
+
+        #for the computer...
         else:
+
+            #follows the same procedure as before
             if op_ships_dict[ship_name[0].lower()] == 0:
                 print "You sunk their " + ship_name
                 global opShipsLeft
@@ -464,12 +483,10 @@ def check_sunk(board):
 
 
 #********************************************************************************
-# check_fired(board, row, col) -
+# check_fired(board, row, col) - returns if there has already been a shot there
 #
-#
-#
-# pre:
-# post:
+# pre: initialized board and valid row/col have been passed in
+# post: returns false if there is already a shot there, true if otherwise
 #********************************************************************************
 def check_fired(board, row, col):
 
@@ -480,28 +497,21 @@ def check_fired(board, row, col):
     else:
         return True
 
-
-
-
 #********************************************************************************
-# cls() -
+# cls() - clears the screen regardless of operating system type
 #
-#
-#
-# pre:
-# post:
+# pre: none
+# post: screen has been cleared
 #********************************************************************************
 def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 #********************************************************************************
-# main()-
+# main()- displays menu, deploys ships, and plays game
 #
-#
-#
-# pre:
-# post:
+# pre: none
+# post: Battleship game has been played
 #********************************************************************************
 def main():
     # printMenu returns decision of user to auto deploy or manual
