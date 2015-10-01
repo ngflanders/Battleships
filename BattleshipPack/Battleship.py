@@ -645,7 +645,7 @@ def main():
     else:
         print "\nYou won!"
     # closing message
-    print "Thanks for playing Bertlesherp!"
+    print "Thanks for playing Battleship!"
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
