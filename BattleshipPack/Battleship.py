@@ -221,7 +221,7 @@ def get_user_input_loc():
             print "Invalid format. Try again. "
             inp = str(raw_input("Enter letter and number (separated by a space): "))
         except NameError:
-            print "Something Wrong. Either your letter or number is out of bounds"
+            print "Something wrong. Either your letter or number is out of bounds"
             inp = str(raw_input("Enter letter and number (separated by a space): "))
 
 
@@ -623,7 +623,7 @@ def main():
     print "\nAll ships deployed"
     raw_input("Press enter to continue...")
     print "Computer deploying ships..."
-    time.sleep(1.2)
+    time.sleep(1)
 
     # deploy computer's ships automatically
     deployShips(opBoard, True)
@@ -634,29 +634,38 @@ def main():
 
     # BEGIN GAME PLAY
 
+    turns = 0
 
 
-    while (myShipsLeft > 0 and opShipsLeft > 0):
+    while True:
+
+        turns += 1
 
         # USER'S TURN
         printBoard(opBoard)
         user_turn()
         raw_input("Press enter to continue...")
 
+        if opShipsLeft == 0:
+            break
+
         # OP'S TURN
         printBoard(myBoard)
         print "Computer firing..."
-        time.sleep(2)
+        time.sleep(1)
         if easymode:
             simple_ai_turn()
         else:
             smart_ai_turn()
         raw_input("Press enter to continue...")
 
+        if myShipsLeft == 0:
+            break
+
     if myShipsLeft == 0:
-        print "\nYou lost :("
+        print "\nYou lost! The computer beat you in " + turns + " turns!"
     else:
-        print "\nYou won!"
+        print "\nYou won! You beat the computer in " + turns + " turns!"
     # closing message
     print "Thanks for playing Battleship!"
 
