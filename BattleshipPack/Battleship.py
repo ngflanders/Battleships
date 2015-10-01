@@ -163,8 +163,8 @@ def printComputerBoard():
 
         # for every location on the board, only print hits and misses
         for x in range(len(opBoard[y])):
-            if opBoard[y][x] == 'M':
-                print "|  # ",
+            if opBoard[y][x] == '-':
+                print "|  - ",
             elif opBoard[y][x] == '*':
                 print "|  * ",
             else:
@@ -445,7 +445,7 @@ def checkBoundaries(ship, row, col, orient):
 #********************************************************************************
 # check_hit(board, row, col) - if there is a ship at the location fired at,
 #                              put a '*' and decrement the lives of that ship,
-#                              otherwise put a 'M' for miss
+#                              otherwise put a '-' for miss
 #
 # pre: valid board/row/col have been passed in
 # post: the appropriate symbol has been placed on the board and the validity of
@@ -477,7 +477,7 @@ def check_hit(board, row, col):
     # if there were no ships at that location, it was a miss, turns the string
     # into a list for manipulation, then change the value then convert back to string
     temp = list(board[row][col])
-    temp[0] = "M"
+    temp[0] = "-"
     board[row][col] = "".join(temp)
     return False
 
@@ -526,7 +526,7 @@ def check_fired(board, row, col):
 
     # if there is a hit/miss symbol at that location, it has already
     # been fired at and returns false
-    if board[row][col] == '*' or board[row][col] == 'M':
+    if board[row][col] == '*' or board[row][col] == '-':
         return False
     else:
         return True
