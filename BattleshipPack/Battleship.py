@@ -623,7 +623,7 @@ def main():
     print "\nAll ships deployed"
     raw_input("Press enter to continue...")
     print "Computer deploying ships..."
-    time.sleep(2)
+    time.sleep(1.2)
 
     # deploy computer's ships automatically
     deployShips(opBoard, True)
