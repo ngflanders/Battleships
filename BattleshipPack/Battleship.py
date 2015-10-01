@@ -554,17 +554,24 @@ def checkFired(board, row, col):
 
 
 #********************************************************************************
-# userTurn() - executes all of the
+# userTurn() - executes all of the operations for the user's turn
 #
 # pre: none
-# post: screen has been cleared
+# post: user has fired at the computer and has seen the results of their shot
 #********************************************************************************
 def userTurn():
+
     print "Fire at your opponent! ",
+
+    # getting valid firing location
     locx, locy = getUserInputLoc()
+
+    # if the user has already fired at that location, get a new input
     while checkFired(opBoard, locx, locy) == False:
         print "You've already shot there. Try again. "
         locx, locy = getUserInputLoc()
+
+    # if the user hits a ship, print hit message, else print miss message
     if checkHit(opBoard, locx, locy) == True:
         printBoard(opBoard)
         print "You got a hit!"
