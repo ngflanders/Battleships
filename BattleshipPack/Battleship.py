@@ -27,15 +27,27 @@ opBoard.append("c")
 myBoard = [['0' for x in range(10)] for y in range(10)]
 myBoard.append("u")
 
-# lists and dictionaries for the ships, lives, board positions, and orientations
+# list of valid alphabet letters for the board
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+
+# list of valid orientations
 orientations = ['n', 's', 'e', 'w']
+
+# dictionary of letters and their corresponding board locations
 letterspos = {'a': 0, 'b': 1, 'c':2, 'd':3, 'e':4,'f':5,'g':6,'h':7, 'i': 8, 'j': 9}
+
+# dictionaries to hold the number of lives for each ship
 my_ships_dict = {'b':4, 'd': 4, 's': 3, 'p': 2,'c':5}
 op_ships_dict = {'b':4, 'd': 4, 's': 3, 'p': 2,'c':5}
+
+# list of full ship names
 ships_list = ['Battleship', "Destroyer", "Submarine", "Patrol Boat", "Carrier"]
+
+# variables to hold how many ships are left
 myShipsLeft = 5
 opShipsLeft = 5
+
+# empty list to hold possible firing locations for smart AI
 opAttackList = []
 
 #********************************************************************************
@@ -55,32 +67,35 @@ def printMenu():
     print "                                       /_/       "
     print
 
-    inpah = raw_input("Welcome to Battleship! Press 'E' for easy mode and 'H' for "
+    # welcome message and prompt for easy or hard mode
+    mode = raw_input("Welcome to Battleship! Press 'E' for easy mode and 'H' for "
                       "hard mode: ")
 
-    while inpah.upper() != 'E' and inpah.upper() != 'H':
-        inpah = raw_input("Invalid input! Please select 'E' or 'H': ")
+    #data validation
+    while mode.upper() != 'E' and mode.upper() != 'H':
+        mode = raw_input("Invalid input! Please select 'E' or 'H': ")
 
-    if inpah.upper() == 'E':
-        easymode = True
+    # sets easy_mode variable based on user input
+    if mode.upper() == 'E':
+        easy_mode = True
     else:
-        easymode = False
+        easy_mode = False
 
-    # welcome message and prompt for auto/manual deployment
-    inpoo = raw_input("Press 'M' to manually deploy your "
+    # prompt for auto/manual deployment
+    deploy = raw_input("Press 'M' to manually deploy your "
                       "ships or 'A' to have your ships automatically deployed: ")
 
     # data validation
-    while inpoo.upper() != 'A' and inpoo.upper() != 'M':
-        inpoo = raw_input("Invalid character! Please select 'A' or 'M': ")
+    while deploy.upper() != 'A' and deploy.upper() != 'M':
+        deploy = raw_input("Invalid character! Please select 'A' or 'M': ")
 
-    # returns the result of automatic or manual choice
-    if inpoo.upper() == 'A':
-        auto =  True
+    # sets auto_deploy variable based on user input
+    if deploy.upper() == 'A':
+        auto_deploy =  True
     else:
-        auto = False
+        auto_deploy = False
 
-    return easymode, auto
+    return easy_mode, auto_deploy
 
 #********************************************************************************
 # simpleBoard(board) - prints out the inputted board in a simple form for testing
@@ -96,7 +111,7 @@ def simpleBoard(board):
     else:
         print "Computer's board:\n"
 
-    # for every place in the array, print what is at that location
+    # for every coordinate in the array, print what is at that location
     for y in range(len(board)-1):
         for x in range(len(board[y])):
             print board[y][x] + " ",
@@ -375,25 +390,21 @@ def checkForShip(board, ship, row, col, orient):
     # for each orientation and for every space of the ship, check if that position
     # is currently occupied and return false if it is
 
-    # south
     if orient == 's':
         for x in range(my_ships_dict[ship]):
             if checkPosition(board, row + x, col) == False:
                 return False
 
-    # east
     elif orient == 'e':
         for x in range(my_ships_dict[ship]):
             if checkPosition(board, row, col + x) == False:
                 return False
 
-    # north
     elif orient == 'n':
         for x in range(my_ships_dict[ship]):
             if checkPosition(board, row - x, col) == False:
                 return False
 
-    # west
     else:
         for x in range(my_ships_dict[ship]):
             if checkPosition(board, row, col - x) == False:
@@ -428,14 +439,17 @@ def checkBoundaries(ship, row, col, orient):
         for x in range(my_ships_dict[ship]):
             if (row + x) > 9:
                 return False
+
     elif orient == 'e':
         for x in range(my_ships_dict[ship]):
             if (col + x) > 9:
                 return False
+
     elif orient == 'n':
         for x in range(my_ships_dict[ship]):
             if (row - x) < 0:
                 return False
+
     else:
         for x in range(my_ships_dict[ship]):
             if (col - x) < 0:
@@ -531,6 +545,12 @@ def checkFired(board, row, col):
     else:
         return True
 
+#********************************************************************************
+# userTurn() - executes all of the
+#
+# pre: none
+# post: screen has been cleared
+#********************************************************************************
 
 def userTurn():
     print "Fire at your opponent! ",
@@ -540,11 +560,18 @@ def userTurn():
         locx, locy = getUserInputLoc()
     if checkHit(opBoard, locx, locy) == True:
         printBoard(opBoard)
-        print "HIT!!!!!!!!!!!!!!!!!!!!!!!!"
+        print "You got a hit!"
         checkSunk(opBoard)
     else:
         printBoard(opBoard)
-        print "Miss :("
+        print "You missed."
+
+#********************************************************************************
+# cls() - clears the screen regardless of operating system type
+#
+# pre: none
+# post: screen has been cleared
+#********************************************************************************
 
 def simpleOpTurn():
     row, col = random.randint(0,9), random.randint(0,9)
@@ -552,11 +579,18 @@ def simpleOpTurn():
         row, col = random.randint(0,9), random.randint(0,9)
     if checkHit(myBoard, row, col) == True:
         printBoard(myBoard)
-        print "You've been hit!!!!!!!!!!!!!!"
+        print "You've been hit!"
         checkSunk(myBoard)
     else:
         printBoard(myBoard)
         print "Your opponent missed."
+
+#********************************************************************************
+# cls() - clears the screen regardless of operating system type
+#
+# pre: none
+# post: screen has been cleared
+#********************************************************************************
 
 def smartOpTurn():
     if len(opAttackList) == 0:
@@ -581,13 +615,17 @@ def smartOpTurn():
     else:
         row, col = opAttackList.pop(0)
         if checkHit(myBoard, row, col) == True:
-            if row+1 <= 9 and checkFired(myBoard, row+1, col)==True and opAttackList.count([row+1, col]) == 0:
+            if row+1 <= 9 and checkFired(myBoard, row+1, col)==True \
+                    and opAttackList.count([row+1, col]) == 0:
                 opAttackList.append([row+1, col])
-            if row-1 >= 0 and checkFired(myBoard, row-1, col)==True and opAttackList.count([row-1, col]) == 0:
+            if row-1 >= 0 and checkFired(myBoard, row-1, col)==True \
+                    and opAttackList.count([row-1, col]) == 0:
                 opAttackList.append([row-1, col])
-            if col+1 <= 9 and checkFired(myBoard, row, col+1)==True and opAttackList.count([row, col+1]) == 0:
+            if col+1 <= 9 and checkFired(myBoard, row, col+1)==True \
+                    and opAttackList.count([row, col+1]) == 0:
                 opAttackList.append([row, col+1])
-            if col-1 >= 0 and checkFired(myBoard, row, col-1)==True and opAttackList.count([row, col-1]) == 0:
+            if col-1 >= 0 and checkFired(myBoard, row, col-1)==True \
+                    and opAttackList.count([row, col-1]) == 0:
                 opAttackList.append([row, col-1])
             printBoard(myBoard)
             print "You've been hit!"
@@ -642,6 +680,8 @@ def main():
         turns += 1
 
         # USER'S TURN
+
+        #simpleBoard(opBoard) #remove comment to view computer's board for testing
         printBoard(opBoard)
         userTurn()
         raw_input("Press enter to continue...")
