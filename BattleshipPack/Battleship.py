@@ -59,7 +59,7 @@ def printMenu():
                       "hard mode: ")
 
     while inpah.upper() != 'E' and inpah.upper() != 'H':
-        inpah = raw_input("Invalid number! Please select 'E' or 'H': ")
+        inpah = raw_input("Invalid input! Please select 'E' or 'H': ")
 
     if inpah.upper() == 'E':
         easymode = True
@@ -162,7 +162,7 @@ def printComputerBoard():
         # for every location on the board, only print hits and misses
         for x in range(len(opBoard[y])):
             if opBoard[y][x] == 'M':
-                print "|  M ",
+                print "|  # ",
             elif opBoard[y][x] == '*':
                 print "|  * ",
             else:
@@ -568,6 +568,10 @@ def smart_ai_turn():
         while check_fired(myBoard, row, col) == False:
             row, col = random.randint(0,9), random.randint(0,9)
             if check_hit(myBoard, row, col) == True:
+                opAttackList.append([row+1, col])
+                opAttackList.append([row-1, col])
+                opAttackList.append([row, col+1])
+                opAttackList.append([row, col-1])
                 print "You've been hit!!!!!!!!!!!!!!"
                 check_sunk(myBoard)
             else:
