@@ -210,7 +210,7 @@ def getUserInputLoc():
             if inp[0].lower() not in letterspos:
                 # raises our choice of error
                 raise NameError("Letter")
-            if num > 10:
+            if num > 10 or num < 1:
                 # raises our choice of error
                 raise NameError("Num")
             # breaks out of loop if no errors are raised
@@ -221,7 +221,7 @@ def getUserInputLoc():
             print "Invalid format. Try again. "
             inp = str(raw_input("Enter letter and number (separated by a space): "))
         except NameError:
-            print "Something wrong. Either your letter or number is out of bounds"
+            print "Something is wrong. Either your letter or number is out of bounds"
             inp = str(raw_input("Enter letter and number (separated by a space): "))
 
 
@@ -556,7 +556,7 @@ def simpleOpTurn():
         checkSunk(myBoard)
     else:
         printBoard(myBoard)
-        print "Your opponent missed"
+        print "Your opponent missed."
 
 def smartOpTurn():
     if len(opAttackList) == 0:
@@ -573,7 +573,7 @@ def smartOpTurn():
             if col-1 >= 0 and checkFired(myBoard, row, col-1)==True:
                 opAttackList.append([row, col-1])
             printBoard(myBoard)
-            print "You've been hit!!!!!!!!!!!!!!"
+            print "You've been hit!"
             checkSunk(myBoard)
         else:
             printBoard(myBoard)
@@ -590,8 +590,8 @@ def smartOpTurn():
             if col-1 >= 0 and checkFired(myBoard, row, col-1)==True:
                 opAttackList.append([row, col-1])
             printBoard(myBoard)
-            print "Youve been hit!!!!!!!!!!!!!!"
-            checkSunk(myBoard)
+            print "You've been hit!"
+            check_sunk(myBoard)
         else:
             printBoard(myBoard)
             print "Your opponent missed."
