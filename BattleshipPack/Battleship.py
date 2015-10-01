@@ -54,8 +54,19 @@ def printMenu():
     print "                                               /_/       "
     print
 
+    inpah = raw_input("Welcome to Battleship! Press 'E' for easy mode and 'H' for "
+                      "hard mode: ")
+
+    while inpah.upper() != 'E' and inpah.upper() != 'H':
+        inpah = raw_input("Invalid number! Please select 'E' or 'H': ")
+
+    if inpah.upper() == 'E':
+        easymode = True
+    else:
+        easymode = False
+
     # welcome message and prompt for auto/manual deployment
-    inpoo = raw_input("Welcome to Bertlesherp! Press 'M' to manually deploy your "
+    inpoo = raw_input("Press 'M' to manually deploy your "
                       "ships or 'A' to have your ships automatically deployed: ")
 
     # data validation
@@ -64,9 +75,11 @@ def printMenu():
 
     # returns the result of automatic or manual choice
     if inpoo.upper() == 'A':
-        return True
+        auto =  True
     else:
-        return False
+        auto = False
+
+    return easymode, auto
 
 #********************************************************************************
 # simpleBoard(board) - prints out the inputted board in a simple form for testing
@@ -516,6 +529,32 @@ def check_fired(board, row, col):
     else:
         return True
 
+
+def user_turn():
+    print "Fire at your opponent! ",
+    locx, locy = get_user_input_loc()
+    while check_fired(opBoard, locx, locy) == False:
+        print "You've already shot there. Try again. "
+        locx, locy = get_user_input_loc()
+    if check_hit(opBoard, locx, locy) == True:
+        print "HIT!!!!!!!!!!!!!!!!!!!!!!!!"
+        check_sunk(opBoard)
+    else:
+        print "Miss :("
+
+def simple_ai_turn():
+    row, col = random.randint(0,9), random.randint(0,9)
+    while check_fired(myBoard, row, col) == False:
+        row, col = random.randint(0,9), random.randint(0,9)
+    if check_hit(myBoard, row, col) == True:
+        print "You've been hit!!!!!!!!!!!!!!"
+        check_sunk(myBoard)
+    else:
+        print "Your opponent missed"
+
+def smart_ai_turn():
+    pass
+
 #********************************************************************************
 # cls() - clears the screen regardless of operating system type
 #
@@ -534,7 +573,7 @@ def cls():
 #********************************************************************************
 def main():
     # printMenu returns decision of user to auto deploy or manual
-    autoornah = printMenu()
+    easymode, autoornah = printMenu()
 
     # deploy user's ships based on deployment decision
     deployShips(myBoard, autoornah)
@@ -566,33 +605,22 @@ def main():
 
     while (myShipsLeft > 0 and opShipsLeft > 0):
 
-        # USER'S TURN
-        print "Fire at your opponent! ",
-        locx, locy = get_user_input_loc()
-        while check_fired(opBoard, locx, locy) == False:
-            print "You've already shot there. Try again. "
-            locx, locy = get_user_input_loc()
-        if check_hit(opBoard, locx, locy) == True:
-            print "HIT!!!!!!!!!!!!!!!!!!!!!!!!"
-            check_sunk(opBoard)
-        else:
-            print "Miss :("
-
-
-        # OP'S TURN
-        row, col = random.randint(0,9), random.randint(0,9)
-        while check_fired(myBoard, row, col) == False:
-            row, col = random.randint(0,9), random.randint(0,9)
-        if check_hit(myBoard, row, col) == True:
-            print "You've been hit!!!!!!!!!!!!!!"
-            check_sunk(myBoard)
-        else:
-            print "Your opponent missed"
 
         print "Mine: "
         simpleBoard(myBoard)
         print "Opponent: "
         simpleBoard(opBoard)
+
+        # USER'S TURN
+
+        user_turn()
+
+        # OP'S TURN
+
+        if easymode:
+            simple_ai_turn()
+        else:
+            smart_ai_turn()
 
     if myShipsLeft == 0:
         print "\nYou lost :("
