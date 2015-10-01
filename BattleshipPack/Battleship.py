@@ -548,10 +548,6 @@ def simple_ai_turn():
     while check_fired(myBoard, row, col) == False:
         row, col = random.randint(0,9), random.randint(0,9)
     if check_hit(myBoard, row, col) == True:
-        opAttackList.append([row+1, col])
-        opAttackList.append([row-1, col])
-        opAttackList.append([row, col+1])
-        opAttackList.append([row, col-1])
         print "You've been hit!!!!!!!!!!!!!!"
         check_sunk(myBoard)
     else:
@@ -559,7 +555,14 @@ def simple_ai_turn():
 
 def smart_ai_turn():
     if len(opAttackList) == 0:
-        simple_ai_turn()
+        row, col = random.randint(0,9), random.randint(0,9)
+        while check_fired(myBoard, row, col) == False:
+            row, col = random.randint(0,9), random.randint(0,9)
+            if check_hit(myBoard, row, col) == True:
+                print "You've been hit!!!!!!!!!!!!!!"
+                check_sunk(myBoard)
+            else:
+                print "Your opponent missed."
     else:
         row, col = opAttackList.pop(0)
         if check_hit(myBoard, row, col) == True:
