@@ -198,15 +198,21 @@ def get_user_input_loc():
     # take user input as a string
     inp = str(raw_input("Enter letter and number (separated by a space): "))
 
-
+    # data validation to check if the first item is a valid character and the
+    # second item is a valid number on the board
     while True:
         try:
             num = int(inp[2:len(inp)])
             if inp[0].lower() not in letterspos:
+                # raises our choice of error
                 raise NameError("Letter")
             if num > 10:
+                # raises our choice of error
                 raise NameError("Num")
+            # breaks out of loop if no errors are raised
             break
+
+        # handles the exceptions, and allows user to re-input
         except ValueError:
             print "Invalid format. Try again. "
             inp = str(raw_input("Enter letter and number (separated by a space): "))
@@ -214,12 +220,6 @@ def get_user_input_loc():
             print "Something Wrong. Either your letter or number is out of bounds"
             inp = str(raw_input("Enter letter and number (separated by a space): "))
 
-
-    # data validation to check if the first item is a valid character and the
-    # second item is a valid number on the board
-    #while inp[0].lower() not in letterspos or int(inp[2:len(inp)]) > 10:
-    #    print "Please choose a letter and number from the board"
-    #    inp = str(raw_input("Enter letter and number (separated by a space): "))
 
     # save input to variables and return them as coordinates, making appropriate
     # compensation for the 0-start nature of the array
