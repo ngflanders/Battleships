@@ -591,7 +591,7 @@ def smartOpTurn():
                 opAttackList.append([row, col-1])
             printBoard(myBoard)
             print "You've been hit!"
-            check_sunk(myBoard)
+            checkSunk(myBoard)
         else:
             printBoard(myBoard)
             print "Your opponent missed."
