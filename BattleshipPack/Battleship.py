@@ -555,13 +555,22 @@ def simple_ai_turn():
         print "You've been hit!!!!!!!!!!!!!!"
         check_sunk(myBoard)
     else:
-        print "Your opponent missed"
+        print "Your opponent missed."
 
 def smart_ai_turn():
     if len(opAttackList) == 0:
         simple_ai_turn()
     else:
         row, col = opAttackList.pop(0)
+        if check_hit(myBoard, row, col) == True:
+            opAttackList.append([row+1, col])
+            opAttackList.append([row-1, col])
+            opAttackList.append([row, col+1])
+            opAttackList.append([row, col-1])
+            print "Youve been hit!!!!!!!!!!!!!!"
+            check_sunk(myBoard)
+        else:
+            print "Your opponent missed."
 
 #********************************************************************************
 # cls() - clears the screen regardless of operating system type
