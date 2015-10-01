@@ -564,10 +564,14 @@ def smart_ai_turn():
         while check_fired(myBoard, row, col) == False:
             row, col = random.randint(0,9), random.randint(0,9)
         if check_hit(myBoard, row, col) == True:
-            opAttackList.append([row+1, col])
-            opAttackList.append([row-1, col])
-            opAttackList.append([row, col+1])
-            opAttackList.append([row, col-1])
+            if row+1 <= 9 and check_fired(myBoard, row+1, col)==True:
+                opAttackList.append([row+1, col])
+            if row-1 >= 0 and check_fired(myBoard, row-1, col)==True:
+                opAttackList.append([row-1, col])
+            if col+1 <= 9 and check_fired(myBoard, row, col+1)==True:
+                opAttackList.append([row, col+1])
+            if col-1 >= 0 and check_fired(myBoard, row, col-1)==True:
+                opAttackList.append([row, col-1])
             printBoard(myBoard)
             print "You've been hit!!!!!!!!!!!!!!"
             check_sunk(myBoard)
@@ -577,10 +581,14 @@ def smart_ai_turn():
     else:
         row, col = opAttackList.pop(0)
         if check_hit(myBoard, row, col) == True:
-            opAttackList.append([row+1, col])
-            opAttackList.append([row-1, col])
-            opAttackList.append([row, col+1])
-            opAttackList.append([row, col-1])
+            if row+1 <= 9 and check_fired(myBoard, row+1, col)==True:
+                opAttackList.append([row+1, col])
+            if row-1 >= 0 and check_fired(myBoard, row-1, col)==True:
+                opAttackList.append([row-1, col])
+            if col+1 <= 9 and check_fired(myBoard, row, col+1)==True:
+                opAttackList.append([row, col+1])
+            if col-1 >= 0 and check_fired(myBoard, row, col-1)==True:
+                opAttackList.append([row, col-1])
             printBoard(myBoard)
             print "Youve been hit!!!!!!!!!!!!!!"
             check_sunk(myBoard)
