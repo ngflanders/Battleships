@@ -134,6 +134,7 @@ def printPlayerBoard():
             else:
                 print "|  " + myBoard[y][x] + " ",
         print
+    print
 
 #********************************************************************************
 # printComputerBoard() - prints out the computer's board
@@ -149,7 +150,7 @@ def printComputerBoard():
     # print out the top row of numbers using the letterspos dictionary
     print " ",
     for letter in alphabet:
-        print "   " + str(letterspos[letter]) + " ",
+        print "   " + str(letterspos[letter]+1) + " ",
     print
 
     # print the divising line and the letter coordinate for that line from the
@@ -538,9 +539,13 @@ def user_turn():
         print "You've already shot there. Try again. "
         locx, locy = get_user_input_loc()
     if check_hit(opBoard, locx, locy) == True:
+        cls()
+        printBoard(opBoard)
         print "HIT!!!!!!!!!!!!!!!!!!!!!!!!"
         check_sunk(opBoard)
     else:
+        cls()
+        printBoard(opBoard)
         print "Miss :("
 
 def simple_ai_turn():
@@ -548,10 +553,14 @@ def simple_ai_turn():
     while check_fired(myBoard, row, col) == False:
         row, col = random.randint(0,9), random.randint(0,9)
     if check_hit(myBoard, row, col) == True:
+        cls()
+        printBoard(myBoard)
         print "You've been hit!!!!!!!!!!!!!!"
         check_sunk(myBoard)
     else:
-        print "Your opponent missed."
+        cls()
+        printBoard(myBoard)
+        print "Your opponent missed"
 
 def smart_ai_turn():
     if len(opAttackList) == 0:
@@ -594,51 +603,45 @@ def cls():
 def main():
     # printMenu returns decision of user to auto deploy or manual
     easymode, autoornah = printMenu()
-
+    cls()
     # deploy user's ships based on deployment decision
     deployShips(myBoard, autoornah)
 
     # success message, computer deployment
     print "\nAll ships deployed"
+    raw_input("Press enter to continue...")
     print "Computer deploying ships..."
+    time.sleep(2)
 
     # deploy computer's ships automatically
     deployShips(opBoard, True)
 
     # success message
     print "Computer ships deployed\n"
-
-    # pause to view computer board
-    raw_input("Press Enter to see simple boards...")
-
-    # print the simple boards with all elements of array visible
-    print "Simple boards:\n"
-
-    simpleBoard(myBoard)
-    simpleBoard(opBoard)
-
-
+    raw_input("Press enter to begin game!")
 
     # BEGIN GAME PLAY
 
+
+
     while (myShipsLeft > 0 and opShipsLeft > 0):
 
-
-        print "Mine: "
-        simpleBoard(myBoard)
-        print "Opponent: "
-        simpleBoard(opBoard)
-
         # USER'S TURN
-
+        cls()
+        printBoard(opBoard)
         user_turn()
+        raw_input("Press enter to continue...")
 
         # OP'S TURN
-
+        cls()
+        printBoard(myBoard)
+        print "Computer firing..."
+        time.sleep(2)
         if easymode:
             simple_ai_turn()
         else:
             smart_ai_turn()
+        raw_input("Press enter to continue...")
 
     if myShipsLeft == 0:
         print "\nYou lost :("
