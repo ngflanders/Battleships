@@ -564,13 +564,13 @@ def smartOpTurn():
         while checkFired(myBoard, row, col) == False:
             row, col = random.randint(0,9), random.randint(0,9)
         if checkHit(myBoard, row, col) == True:
-            if row+1 <= 9 and checkFired(myBoard, row+1, col)==True:
+            if row+1 <= 9:
                 opAttackList.append([row+1, col])
-            if row-1 >= 0 and checkFired(myBoard, row-1, col)==True:
+            if row-1 >= 0:
                 opAttackList.append([row-1, col])
-            if col+1 <= 9 and checkFired(myBoard, row, col+1)==True:
+            if col+1 <= 9:
                 opAttackList.append([row, col+1])
-            if col-1 >= 0 and checkFired(myBoard, row, col-1)==True:
+            if col-1 >= 0:
                 opAttackList.append([row, col-1])
             printBoard(myBoard)
             print "You've been hit!"
@@ -581,7 +581,7 @@ def smartOpTurn():
     else:
         row, col = opAttackList.pop(0)
         if checkHit(myBoard, row, col) == True:
-            if row+1 <= 9 and checkFired(myBoard, row+1, col)==True:
+            if row+1 <= 9 and checkFired(myBoard, row+1, col)==True and opAttackList.count([row+1, col] == 0):
                 opAttackList.append([row+1, col])
             if row-1 >= 0 and checkFired(myBoard, row-1, col)==True:
                 opAttackList.append([row-1, col])
