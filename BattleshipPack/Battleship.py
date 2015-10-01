@@ -50,6 +50,7 @@ opShipsLeft = 5
 # empty list to hold possible firing locations for smart AI
 opAttackList = []
 
+
 #********************************************************************************
 # printMenu() - prints out the name of the game
 #
@@ -97,6 +98,7 @@ def printMenu():
 
     return easy_mode, auto_deploy
 
+
 #********************************************************************************
 # simpleBoard(board) - prints out the inputted board in a simple form for testing
 #
@@ -117,6 +119,7 @@ def simpleBoard(board):
             print board[y][x] + " ",
         print
     print
+
 
 #********************************************************************************
 # printPlayerBoard() - prints out the player's board
@@ -151,6 +154,7 @@ def printPlayerBoard():
                 print "|  " + myBoard[y][x] + " ",
         print
     print
+
 
 #********************************************************************************
 # printComputerBoard() - prints out the computer's board
@@ -188,7 +192,6 @@ def printComputerBoard():
     print
 
 
-
 #********************************************************************************
 # printBoard(board) - prints out the inputted board
 #
@@ -203,7 +206,6 @@ def printBoard(board):
         printPlayerBoard()
     else:
         printComputerBoard()
-
 
 
 #********************************************************************************
@@ -250,6 +252,7 @@ def getUserInputLoc():
     # that the user inputted must be decremented
     return row, col-1
 
+
 #********************************************************************************
 # getUserInputOrient() - prompts the user for an orientation
 #
@@ -266,6 +269,7 @@ def getUserInputOrient():
         inp = raw_input("Enter a valid direction (N, S, E, or W): ")
 
     return inp
+
 
 #********************************************************************************
 # autoDeploy(board) - automatically deploys the ships on the given board
@@ -289,6 +293,7 @@ def autoDeploy(board):
 
         # once coordinates are good, place the ship
         placeShip(board, ship_name[0].lower(), row, col, orient)
+
 
 #********************************************************************************
 # manualDeploy(board) - places ships in inputted locations
@@ -322,7 +327,6 @@ def manualDeploy(board):
         placeShip(board, ship_name[0].lower(), row, col, orient)
 
 
-
 #********************************************************************************
 # deployShips(board, autoornah) - deploys ships automatically or manually
 #
@@ -348,6 +352,7 @@ def deployShips(board, autoornah):
 
         # since manual deployment is always user based, print the board
         printBoard(board)
+
 
 #********************************************************************************
 # placeShip(board, ship, row, col, orient) - places the given ship on the given
@@ -410,6 +415,7 @@ def checkForShip(board, ship, row, col, orient):
             if checkPosition(board, row, col - x) == False:
                 return False
 
+
 #********************************************************************************
 # checkPosition(board, row, col) - checks if there is something at a given position
 #
@@ -423,6 +429,7 @@ def checkPosition(board, row, col):
     # at that location and it returns false
     if board[row][col] != '0':
         return False
+
 
 #********************************************************************************
 # checkBoundaries(ship, row, col, orient) - checks if the whole ship will fit at
@@ -545,13 +552,13 @@ def checkFired(board, row, col):
     else:
         return True
 
+
 #********************************************************************************
 # userTurn() - executes all of the
 #
 # pre: none
 # post: screen has been cleared
 #********************************************************************************
-
 def userTurn():
     print "Fire at your opponent! ",
     locx, locy = getUserInputLoc()
@@ -566,13 +573,13 @@ def userTurn():
         printBoard(opBoard)
         print "You missed."
 
-#********************************************************************************
-# cls() - clears the screen regardless of operating system type
-#
-# pre: none
-# post: screen has been cleared
-#********************************************************************************
 
+#********************************************************************************
+# simpleOpTurn() - handles the opponent's moves for easy mode
+#
+# pre: easy mode has been selected by the user
+# post:
+#********************************************************************************
 def simpleOpTurn():
     row, col = random.randint(0,9), random.randint(0,9)
     while checkFired(myBoard, row, col) == False:
