@@ -192,12 +192,12 @@ def printBoard(board):
 
 
 #********************************************************************************
-# get_user_input_loc() - prompts the user for a location in coordinates
+# getUserInputLoc() - prompts the user for a location in coordinates
 #
 # pre - none
 # post - valid coordinate points have been parsed and returned
 #********************************************************************************
-def get_user_input_loc():
+def getUserInputLoc():
 
     # take user input as a string
     inp = str(raw_input("Enter letter and number (separated by a space): "))
@@ -236,12 +236,12 @@ def get_user_input_loc():
     return row, col-1
 
 #********************************************************************************
-# get_user_input_orient() - prompts the user for an orientation
+# getUserInputOrient() - prompts the user for an orientation
 #
 # pre - none
 # post - a valid orientation has been returned
 #********************************************************************************
-def get_user_input_orient():
+def getUserInputOrient():
 
     # takes user input
     inp = raw_input("Enter a direction (N, S, E, or W): ")
@@ -273,7 +273,7 @@ def autoDeploy(board):
             orient = random.choice(orientations)
 
         # once coordinates are good, place the ship
-        place_ship(board, ship_name[0].lower(), row, col, orient)
+        placeShip(board, ship_name[0].lower(), row, col, orient)
 
 #********************************************************************************
 # manualDeploy(board) - places ships in inputted locations
@@ -293,18 +293,18 @@ def manualDeploy(board):
         print "Place your " + ship_name + "(" + str(my_ships_dict[ship_name[0].lower()]) + "):"
 
         # call user input functions
-        row, col = get_user_input_loc()
-        orient = get_user_input_orient()
+        row, col = getUserInputLoc()
+        orient = getUserInputOrient()
 
         # data validation to check boundaries and check for other ships
         while checkBoundaries(ship_name[0].lower(), row, col, orient) == False or \
                         checkForShip(board, ship_name[0].lower(), row, col, orient) == False:
             print "Please place your ship within the board where it does not overlap another ship"
-            row, col = get_user_input_loc()
-            orient = get_user_input_orient()
+            row, col = getUserInputLoc()
+            orient = getUserInputOrient()
 
         # when coordinates are good, place the ship
-        place_ship(board, ship_name[0].lower(), row, col, orient)
+        placeShip(board, ship_name[0].lower(), row, col, orient)
 
 
 
@@ -335,14 +335,14 @@ def deployShips(board, autoornah):
         printBoard(board)
 
 #********************************************************************************
-# place_ship(board, ship, row, col, orient) - places the given ship on the given
+# placeShip(board, ship, row, col, orient) - places the given ship on the given
 #                                            board at the given coordinates in the
 #                                            given orientation
 #
 # pre - valid coordinates/orientation have been passed into the function
 # post - the ship is placed
 #********************************************************************************
-def place_ship(board, ship, row, col, orient):
+def placeShip(board, ship, row, col, orient):
 
     # for the length of the ship as defined in the dictionary...
     for x in range(my_ships_dict[ship]):
@@ -378,35 +378,35 @@ def checkForShip(board, ship, row, col, orient):
     # south
     if orient == 's':
         for x in range(my_ships_dict[ship]):
-            if check_position(board, row + x, col) == False:
+            if checkPosition(board, row + x, col) == False:
                 return False
 
     # east
     elif orient == 'e':
         for x in range(my_ships_dict[ship]):
-            if check_position(board, row, col + x) == False:
+            if checkPosition(board, row, col + x) == False:
                 return False
 
     # north
     elif orient == 'n':
         for x in range(my_ships_dict[ship]):
-            if check_position(board, row - x, col) == False:
+            if checkPosition(board, row - x, col) == False:
                 return False
 
     # west
     else:
         for x in range(my_ships_dict[ship]):
-            if check_position(board, row, col - x) == False:
+            if checkPosition(board, row, col - x) == False:
                 return False
 
 #********************************************************************************
-# check_position(board, row, col) - checks if there is something at a given position
+# checkPosition(board, row, col) - checks if there is something at a given position
 #
 #
 # pre - board has been initialized and valid row/col have been passed in
 # post - false has been returned if there is a non-0 at the location given
 #********************************************************************************
-def check_position(board, row, col):
+def checkPosition(board, row, col):
 
     # if the position selected on the board isn't 0, then there is something
     # at that location and it returns false
@@ -443,7 +443,7 @@ def checkBoundaries(ship, row, col, orient):
 
 
 #********************************************************************************
-# check_hit(board, row, col) - if there is a ship at the location fired at,
+# checkHit(board, row, col) - if there is a ship at the location fired at,
 #                              put a '*' and decrement the lives of that ship,
 #                              otherwise put a '-' for miss
 #
@@ -451,7 +451,7 @@ def checkBoundaries(ship, row, col, orient):
 # post: the appropriate symbol has been placed on the board and the validity of
 #       the shot has been returned
 #********************************************************************************
-def check_hit(board, row, col):
+def checkHit(board, row, col):
 
     #for every ship in the ships list...
     for ship_name in ships_list:
@@ -483,12 +483,12 @@ def check_hit(board, row, col):
 
 
 #********************************************************************************
-# check_sunk(board) - returns a message if a ship was sunk
+# checkSunk(board) - returns a message if a ship was sunk
 #
 # pre: initialized board has been passed in
 # post: A sunk message has been displayed if the ship was sunk
 #********************************************************************************
-def check_sunk(board):
+def checkSunk(board):
 
     #for each ship in the list...
     for ship_name in ships_list:
@@ -517,12 +517,12 @@ def check_sunk(board):
 
 
 #********************************************************************************
-# check_fired(board, row, col) - returns if there has already been a shot there
+# checkFired(board, row, col) - returns if there has already been a shot there
 #
 # pre: initialized board and valid row/col have been passed in
 # post: returns false if there is already a shot there, true if otherwise
 #********************************************************************************
-def check_fired(board, row, col):
+def checkFired(board, row, col):
 
     # if there is a hit/miss symbol at that location, it has already
     # been fired at and returns false
@@ -532,66 +532,66 @@ def check_fired(board, row, col):
         return True
 
 
-def user_turn():
+def userTurn():
     print "Fire at your opponent! ",
-    locx, locy = get_user_input_loc()
-    while check_fired(opBoard, locx, locy) == False:
+    locx, locy = getUserInputLoc()
+    while checkFired(opBoard, locx, locy) == False:
         print "You've already shot there. Try again. "
-        locx, locy = get_user_input_loc()
-    if check_hit(opBoard, locx, locy) == True:
+        locx, locy = getUserInputLoc()
+    if checkHit(opBoard, locx, locy) == True:
         printBoard(opBoard)
         print "HIT!!!!!!!!!!!!!!!!!!!!!!!!"
-        check_sunk(opBoard)
+        checkSunk(opBoard)
     else:
         printBoard(opBoard)
         print "Miss :("
 
-def simple_ai_turn():
+def simpleOpTurn():
     row, col = random.randint(0,9), random.randint(0,9)
-    while check_fired(myBoard, row, col) == False:
+    while checkFired(myBoard, row, col) == False:
         row, col = random.randint(0,9), random.randint(0,9)
-    if check_hit(myBoard, row, col) == True:
+    if checkHit(myBoard, row, col) == True:
         printBoard(myBoard)
         print "You've been hit!!!!!!!!!!!!!!"
-        check_sunk(myBoard)
+        checkSunk(myBoard)
     else:
         printBoard(myBoard)
         print "Your opponent missed"
 
-def smart_ai_turn():
+def smartOpTurn():
     if len(opAttackList) == 0:
         row, col = random.randint(0,9), random.randint(0,9)
-        while check_fired(myBoard, row, col) == False:
+        while checkFired(myBoard, row, col) == False:
             row, col = random.randint(0,9), random.randint(0,9)
-        if check_hit(myBoard, row, col) == True:
-            if row+1 <= 9 and check_fired(myBoard, row+1, col)==True:
+        if checkHit(myBoard, row, col) == True:
+            if row+1 <= 9 and checkFired(myBoard, row+1, col)==True:
                 opAttackList.append([row+1, col])
-            if row-1 >= 0 and check_fired(myBoard, row-1, col)==True:
+            if row-1 >= 0 and checkFired(myBoard, row-1, col)==True:
                 opAttackList.append([row-1, col])
-            if col+1 <= 9 and check_fired(myBoard, row, col+1)==True:
+            if col+1 <= 9 and checkFired(myBoard, row, col+1)==True:
                 opAttackList.append([row, col+1])
-            if col-1 >= 0 and check_fired(myBoard, row, col-1)==True:
+            if col-1 >= 0 and checkFired(myBoard, row, col-1)==True:
                 opAttackList.append([row, col-1])
             printBoard(myBoard)
             print "You've been hit!!!!!!!!!!!!!!"
-            check_sunk(myBoard)
+            checkSunk(myBoard)
         else:
             printBoard(myBoard)
             print "Your opponent missed."
     else:
         row, col = opAttackList.pop(0)
-        if check_hit(myBoard, row, col) == True:
-            if row+1 <= 9 and check_fired(myBoard, row+1, col)==True:
+        if checkHit(myBoard, row, col) == True:
+            if row+1 <= 9 and checkFired(myBoard, row+1, col)==True:
                 opAttackList.append([row+1, col])
-            if row-1 >= 0 and check_fired(myBoard, row-1, col)==True:
+            if row-1 >= 0 and checkFired(myBoard, row-1, col)==True:
                 opAttackList.append([row-1, col])
-            if col+1 <= 9 and check_fired(myBoard, row, col+1)==True:
+            if col+1 <= 9 and checkFired(myBoard, row, col+1)==True:
                 opAttackList.append([row, col+1])
-            if col-1 >= 0 and check_fired(myBoard, row, col-1)==True:
+            if col-1 >= 0 and checkFired(myBoard, row, col-1)==True:
                 opAttackList.append([row, col-1])
             printBoard(myBoard)
             print "Youve been hit!!!!!!!!!!!!!!"
-            check_sunk(myBoard)
+            checkSunk(myBoard)
         else:
             printBoard(myBoard)
             print "Your opponent missed."
@@ -643,7 +643,7 @@ def main():
 
         # USER'S TURN
         printBoard(opBoard)
-        user_turn()
+        userTurn()
         raw_input("Press enter to continue...")
 
         if opShipsLeft == 0:
@@ -654,9 +654,9 @@ def main():
         print "Computer firing..."
         time.sleep(1)
         if easymode:
-            simple_ai_turn()
+            simpleOpTurn()
         else:
-            smart_ai_turn()
+            smartOpTurn()
         raw_input("Press enter to continue...")
 
         if myShipsLeft == 0:
