@@ -112,6 +112,7 @@ def simpleBoard(board):
 #********************************************************************************
 def printPlayerBoard():
 
+    cls()
     print "Player's board:\n"
 
     # print out the top row of numbers using the letterspos dictionary
@@ -145,6 +146,7 @@ def printPlayerBoard():
 #********************************************************************************
 def printComputerBoard():
 
+    cls()
     print "Computer's board:\n"
 
     # print out the top row of numbers using the letterspos dictionary
@@ -284,8 +286,7 @@ def manualDeploy(board):
     # place each ship in the ship list
     for ship_name in ships_list:
 
-        # clear the screen and print the board
-        cls()
+        # print the board
         printBoard(board)
 
         # prompt to place each ship in the ship list with number of spaces allowed
@@ -331,7 +332,6 @@ def deployShips(board, autoornah):
         manualDeploy(board)
 
         # since manual deployment is always user based, print the board
-        cls()
         printBoard(board)
 
 #********************************************************************************
@@ -539,12 +539,10 @@ def user_turn():
         print "You've already shot there. Try again. "
         locx, locy = get_user_input_loc()
     if check_hit(opBoard, locx, locy) == True:
-        cls()
         printBoard(opBoard)
         print "HIT!!!!!!!!!!!!!!!!!!!!!!!!"
         check_sunk(opBoard)
     else:
-        cls()
         printBoard(opBoard)
         print "Miss :("
 
@@ -553,12 +551,10 @@ def simple_ai_turn():
     while check_fired(myBoard, row, col) == False:
         row, col = random.randint(0,9), random.randint(0,9)
     if check_hit(myBoard, row, col) == True:
-        cls()
         printBoard(myBoard)
         print "You've been hit!!!!!!!!!!!!!!"
         check_sunk(myBoard)
     else:
-        cls()
         printBoard(myBoard)
         print "Your opponent missed"
 
@@ -567,11 +563,13 @@ def smart_ai_turn():
         row, col = random.randint(0,9), random.randint(0,9)
         while check_fired(myBoard, row, col) == False:
             row, col = random.randint(0,9), random.randint(0,9)
-            if check_hit(myBoard, row, col) == True:
-                print "You've been hit!!!!!!!!!!!!!!"
-                check_sunk(myBoard)
-            else:
-                print "Your opponent missed."
+        if check_hit(myBoard, row, col) == True:
+            printBoard(myBoard)
+            print "You've been hit!!!!!!!!!!!!!!"
+            check_sunk(myBoard)
+        else:
+            printBoard(myBoard)
+            print "Your opponent missed."
     else:
         row, col = opAttackList.pop(0)
         if check_hit(myBoard, row, col) == True:
@@ -579,9 +577,11 @@ def smart_ai_turn():
             opAttackList.append([row-1, col])
             opAttackList.append([row, col+1])
             opAttackList.append([row, col-1])
+            printBoard(myBoard)
             print "Youve been hit!!!!!!!!!!!!!!"
             check_sunk(myBoard)
         else:
+            printBoard(myBoard)
             print "Your opponent missed."
 
 #********************************************************************************
@@ -627,13 +627,11 @@ def main():
     while (myShipsLeft > 0 and opShipsLeft > 0):
 
         # USER'S TURN
-        cls()
         printBoard(opBoard)
         user_turn()
         raw_input("Press enter to continue...")
 
         # OP'S TURN
-        cls()
         printBoard(myBoard)
         print "Computer firing..."
         time.sleep(2)
