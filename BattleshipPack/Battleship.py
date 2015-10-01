@@ -36,6 +36,7 @@ op_ships_dict = {'b':4, 'd': 4, 's': 3, 'p': 2,'c':5}
 ships_list = ['Battleship', "Destroyer", "Submarine", "Patrol Boat", "Carrier"]
 myShipsLeft = 5
 opShipsLeft = 5
+opAttackList = []
 
 #********************************************************************************
 # printMenu() - prints out the name of the game
@@ -547,13 +548,20 @@ def simple_ai_turn():
     while check_fired(myBoard, row, col) == False:
         row, col = random.randint(0,9), random.randint(0,9)
     if check_hit(myBoard, row, col) == True:
+        opAttackList.append([row+1, col])
+        opAttackList.append([row-1, col])
+        opAttackList.append([row, col+1])
+        opAttackList.append([row, col-1])
         print "You've been hit!!!!!!!!!!!!!!"
         check_sunk(myBoard)
     else:
         print "Your opponent missed"
 
 def smart_ai_turn():
-    pass
+    if len(opAttackList) == 0:
+        simple_ai_turn()
+    else:
+        row, col = opAttackList.pop(0)
 
 #********************************************************************************
 # cls() - clears the screen regardless of operating system type
@@ -600,8 +608,6 @@ def main():
 
 
     # BEGIN GAME PLAY
-
-
 
     while (myShipsLeft > 0 and opShipsLeft > 0):
 
