@@ -566,7 +566,7 @@ def userTurn():
 # simpleOpTurn() - handles the opponent's moves for easy mode
 #
 # pre: easy mode has been selected by the user
-# post:
+# post: the opponent fires at the user at completely random locations
 # ********************************************************************************
 def simpleOpTurn():
     row, col = random.randint(0, 9), random.randint(0, 9)
@@ -582,10 +582,10 @@ def simpleOpTurn():
 
 
 # ********************************************************************************
-# cls() - clears the screen regardless of operating system type
+# smartOpTurn() - handles the opponent's moves for hard mode
 #
-# pre: none
-# post: screen has been cleared
+# pre: hard mode has been selected by the user
+# post: the opponent fires at the user using smart aiming techniques
 # ********************************************************************************
 def smartOpTurn():
     if len(opAttackList) == 0:
