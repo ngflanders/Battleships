@@ -90,11 +90,11 @@ def printMenu():
 
     # sets autoDeploy variable based on user input
     if deploy.upper() == 'A':
-        autoDeploy = True
+        auto_deploy = True
     else:
-        autoDeploy = False
+        auto_deploy = False
 
-    return easy_mode, autoDeploy
+    return easy_mode, auto_deploy
 
 
 # ********************************************************************************
@@ -138,7 +138,7 @@ def printPlayerBoard():
     # print the divising line and the letter coordinate for that line from the
     # alphabet dictionary for every row in the board, excluding the ID line
     for y in range(len(myBoard) - 1):
-        print "   -----------------------------------------------------------"
+        print "  -------------------------------------------------------------"
         print alphabet[y].upper(),
 
         # for every location on the board, if it's empty, print a blank space
@@ -148,8 +148,8 @@ def printPlayerBoard():
                 print "|    ",
             else:
                 print "|  " + myBoard[y][x] + " ",
-        print
-    print
+        print "|"
+    print "  -------------------------------------------------------------"
 
 
 # ********************************************************************************
@@ -172,7 +172,7 @@ def printComputerBoard():
     # print the divising line and the letter coordinate for that line from the
     # alphabet dictionary for every row in the board, excluding the ID line
     for y in range(len(opBoard) - 1):
-        print "   -----------------------------------------------------------"
+        print "  -------------------------------------------------------------"
         print alphabet[y].upper(),
 
         # for every location on the board, only print hits and misses
@@ -183,8 +183,8 @@ def printComputerBoard():
                 print "|  * ",
             else:
                 print "|    ",
-        print
-    print
+        print "|"
+    print "  -------------------------------------------------------------"
 
 
 # ********************************************************************************
@@ -324,9 +324,9 @@ def manualDeploy(board):
 # post - the appropriate deploy function has been called based on whether the
 #        calling function requested automatic or manual
 # ********************************************************************************
-def deployShips(board, autoDeploy):
+def deployShips(board, auto_deploy):
     # if deployment is automatic...
-    if autoDeploy:
+    if auto_deploy:
 
         autoDeploy(board)
 
@@ -648,10 +648,10 @@ def cls():
 # ********************************************************************************
 def main():
     # printMenu returns decision of user to auto deploy or manual
-    easymode, autoornah = printMenu()
+    easymode, auto_deploy = printMenu()
     cls()
     # deploy user's ships based on deployment decision
-    deployShips(myBoard, autoornah)
+    deployShips(myBoard, auto_deploy)
 
     # success message, computer deployment
     print "\nAll ships deployed"
@@ -701,6 +701,7 @@ def main():
         print "\nYou lost! The computer beat you in " + str(turns) + " turns!"
     else:
         print "\nYou won! You beat the computer in " + str(turns) + " turns!"
+
     # closing message
     print "Thanks for playing Battleship!"
 
